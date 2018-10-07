@@ -64,7 +64,7 @@ namespace sn_std
 				clear();
 				for (int i = 0; i < m_capacity; ++i)
 				{
-					node* p_node = m_p_vec->back();
+					node* p_node = m_p_vec->back(); 
 					delete p_node;
 					m_p_vec->pop_back();
 				}
@@ -205,7 +205,6 @@ namespace sn_std
 					p_node->reset();
 					m_p_vec->push_back(p_node);
 				}
-				m_p_vec = nullptr;
 			}
 
 			node* _find_min(node* p_node) const

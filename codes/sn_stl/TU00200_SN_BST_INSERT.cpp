@@ -9,11 +9,12 @@
 #include <sates/sates_test_cpp_deploy.h>
 #include <sn_stl/tr1/sn_bbst.h>
 
-SATES_TEST_INIT(TU00100_SN_LIST_PUSH_BACK)
+
+SATES_TEST_INIT(TU00200_SN_BST_INSERT)
 {
 }
 
-SATES_TEST_RUN(TU00100_SN_LIST_PUSH_BACK)
+SATES_TEST_RUN(TU00200_SN_BST_INSERT)
 {
 	sn_std::tr1::sn_bbst<int> bst(50);
 	bst.insert(1);
@@ -21,9 +22,10 @@ SATES_TEST_RUN(TU00100_SN_LIST_PUSH_BACK)
 
 	bst.remove(5);
 	bst.clear();
+
 }
 
-SATES_TEST_TERMINATE(TU00100_SN_LIST_PUSH_BACK)
+SATES_TEST_TERMINATE(TU00200_SN_BST_INSERT)
 {
 
 }

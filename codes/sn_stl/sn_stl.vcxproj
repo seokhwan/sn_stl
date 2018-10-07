@@ -31,7 +31,8 @@
     <ClCompile Include="sn_stl.cpp" />
     <ClCompile Include="TU00001_SN_VECTOR_PUSH_BACK.cpp" />
     <ClCompile Include="TU00002_SN_VECTOR_AT.cpp" />
-    <ClCompile Include="TU00002_SN_VECTOR_RESERVE.cpp" />
+    <ClCompile Include="TU00003_SN_VECTOR_RESERVE.cpp" />
+    <ClCompile Include="TU00004_SN_VECTOR_SORT.cpp" />
     <ClCompile Include="TU00100_SN_LIST_PUSH_BACK.cpp" />
     <ClCompile Include="TU00200_SN_BST_INSERT.cpp" />
   </ItemGroup>

@@ -16,7 +16,7 @@ namespace sn_std
 	class sn_vector
 	{
 	public:
-		sn_vector(uint32_t vec_capacity)
+		sn_vector(int32_t vec_capacity)
 		{
 			m_p_arr = new T[vec_capacity];
 			m_capacity = vec_capacity;
@@ -63,7 +63,7 @@ namespace sn_std
 
 		const T& back() const
 		{
-			return m_p_arr[m_size];
+			return m_p_arr[m_size - 1];
 		}
 
 		const T& front() const
@@ -71,7 +71,7 @@ namespace sn_std
 			return m_p_arr[0];
 		}
 
-		T& at(uint32_t idx)
+		T& at(int32_t idx)
 		{
 			if (idx < m_size)
 			{
@@ -83,12 +83,12 @@ namespace sn_std
 			}
 		}
 
-		T& operator[] (uint32_t idx)
+		T& operator[] (int32_t idx)
 		{
 			return this->at(idx);
 		}
 
-		void reserve(uint32_t new_capacity)
+		void reserve(int32_t new_capacity)
 		{
 			// run if new_capacity  is bigger than current capacity
 			// otherwise, do nothing
@@ -98,11 +98,11 @@ namespace sn_std
 				T* new_arr = new T[new_capacity];
 
 				// - backup all data
-				for (uint32_t i = 0; i < m_size; i++)
+				for (int32_t i = 0; i < m_size; i++)
 				{
 					new_arr[i] = m_p_arr[i];
 				}
-				uint32_t cursize = m_size;
+				int32_t cursize = m_size;
 
 				// - destroy current array
 				destroy();
@@ -113,7 +113,6 @@ namespace sn_std
 				m_size = cursize;
 			}
 		}
-
 
 		typedef T* iterator;
 		typedef const T& const_iterator;

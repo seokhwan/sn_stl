@@ -47,9 +47,6 @@
     <ClCompile Include="TU00002_SN_VECTOR_AT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00002_SN_VECTOR_RESERVE.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sn_stl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TU00200_SN_BST_INSERT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU00004_SN_VECTOR_SORT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU00003_SN_VECTOR_RESERVE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
