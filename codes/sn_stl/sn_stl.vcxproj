@@ -19,22 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sn_deque.h" />
     <ClInclude Include="sn_list.h" />
     <ClInclude Include="sn_map.h" />
     <ClInclude Include="sn_stl.h" />
     <ClInclude Include="sn_vector.h" />
-    <ClInclude Include="sn_deque.h" />
     <ClInclude Include="tr1\sn_bbst.h" />
+    <ClInclude Include="tr1\sn_exception.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sates_test_cpp_deploy.cpp" />
+    <ClCompile Include="sn_exception.cpp" />
     <ClCompile Include="sn_stl.cpp" />
-    <ClCompile Include="TU00001_SN_VECTOR_PUSH_BACK.cpp" />
-    <ClCompile Include="TU00002_SN_VECTOR_AT.cpp" />
-    <ClCompile Include="TU00003_SN_VECTOR_RESERVE.cpp" />
-    <ClCompile Include="TU00004_SN_VECTOR_SORT.cpp" />
-    <ClCompile Include="TU00100_SN_LIST_PUSH_BACK.cpp" />
-    <ClCompile Include="TU00200_SN_BST_INSERT.cpp" />
+    <ClCompile Include="TU02001_SN_DEQUE_PUSH_BACK.cpp" />
+    <ClCompile Include="TU01001_SN_VECTOR_PUSH_BACK.cpp" />
+    <ClCompile Include="TU01002_SN_VECTOR_AT.cpp" />
+    <ClCompile Include="TU01003_SN_VECTOR_RESERVE.cpp" />
+    <ClCompile Include="TU01004_SN_VECTOR_SORT.cpp" />
+    <ClCompile Include="TU02002_SN_DEQUE_PUSH_FRONT.cpp" />
+    <ClCompile Include="TU02003_SN_DEQUE_PUSH_CLEAR.cpp" />
+    <ClCompile Include="TU03001_SN_LIST_PUSH_BACK.cpp" />
+    <ClCompile Include="TU03002_SN_LIST_PUSH_FRONT.cpp" />
+    <ClCompile Include="TU03003_SN_LIST_FULL_EMPTY_CLEAR.cpp" />
+    <ClCompile Include="TU04001_SN_BST_INSERT.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

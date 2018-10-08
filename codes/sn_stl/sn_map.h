@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // This file is part of "the SN_STL"
 // For conditions of distribution and use, see copyright notice in 
 // <sn_stl/sn_stl.h>
@@ -14,6 +14,11 @@
 
 namespace sn_std
 {
+	enum MAP_EXCEPTION
+	{
+		MAP_EXCEPTION_BEGIN = 5000,
+		MAP_EXCEPTION_END
+	};
 	template <typename key, typename val>
 	class sn_map
 	{
@@ -24,7 +29,7 @@ namespace sn_std
 			val v;
 		};
 	public:
-		sn_list(int32_t capacity) :
+		sn_map(int32_t capacity) :
 			m_capacity(capacity),
 			m_size(0),
 			m_p_front(nullptr)
@@ -65,56 +70,6 @@ namespace sn_std
 		bool full() const
 		{
 			return (m_size == m_capacity);
-		}
-
-		void push_back(const T& elem)
-		{
-			node* p_node = m_p_vec->back();
-			p_node->reset();
-			m_p_vec->pop_back();
-
-			p_node->element = elem;
-
-			if (nullptr == m_p_front)
-			{
-				m_p_front = p_node;
-			}
-			else
-			{
-				node* p_tail = _get_tail();
-				p_tail->p_next = p_node;
-				p_node->p_prev = p_tail;
-			}
-		}
-
-		void pop_back()
-		{
-		}
-
-		void push_front(const T& elem)
-		{
-		}
-
-		void pop_front()
-		{
-
-		}
-
-		const T& back() const
-		{
-		}
-
-		const T& front() const
-		{
-		}
-
-		T& at(uint32_t idx)
-		{
-		}
-
-		T& operator[] (uint32_t idx)
-		{
-			return this->at(idx);
 		}
 
 	protected:

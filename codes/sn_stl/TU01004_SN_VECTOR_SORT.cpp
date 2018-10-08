@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // This file is part of "the SN_STL"
 // For conditions of distribution and use, see copyright notice in 
 // <sn_stl/sn_stl.h>
@@ -13,14 +13,14 @@
 
 #include <algorithm>
 
-SATES_TEST_INIT(TU00004_SN_VECTOR_SORT)
+SATES_TEST_INIT(TU01004_SN_VECTOR_SORT)
 {
 
 }
 
-SATES_TEST_RUN(TU00004_SN_VECTOR_SORT)
+SATES_TEST_RUN(TU01004_SN_VECTOR_SORT)
 {
-	sn_std::sn_vector<int> snvec(256);
+	sn_std::sn_vector<int> snvec(256U);
 
 	for (int32_t i = 32; i >= 0; --i)
 	{
@@ -40,7 +40,7 @@ SATES_TEST_RUN(TU00004_SN_VECTOR_SORT)
 	}
 }
 
-SATES_TEST_TERMINATE(TU00004_SN_VECTOR_SORT)
+SATES_TEST_TERMINATE(TU01004_SN_VECTOR_SORT)
 {
 
 }

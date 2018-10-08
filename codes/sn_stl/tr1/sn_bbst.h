@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // This file is part of "the SN_STL"
 // For conditions of distribution and use, see copyright notice in 
 // <sn_stl/sn_stl.h>
@@ -17,6 +17,11 @@ namespace sn_std
 {
 	namespace tr1
 	{
+		enum BBST_EXCEPTION
+		{
+			BBST_EXCEPTION_BEGIN = 4000,
+			BBST_EXCEPTION_END
+		};
 		/**
 		BBST : Balanced Binary Search Tree 
 		(AKA AVL (Adelson-Velskii and Landis) Tree)

@@ -27,13 +27,16 @@
     <ClInclude Include="sn_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sn_deque.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="tr1\sn_bbst.h">
       <Filter>Header Files\tr1</Filter>
     </ClInclude>
     <ClInclude Include="sn_map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tr1\sn_exception.h">
+      <Filter>Header Files\tr1</Filter>
+    </ClInclude>
+    <ClInclude Include="sn_deque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,25 +44,43 @@
     <ClCompile Include="sates_test_cpp_deploy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00001_SN_VECTOR_PUSH_BACK.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TU00002_SN_VECTOR_AT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sn_stl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00100_SN_LIST_PUSH_BACK.cpp">
+    <ClCompile Include="sn_exception.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00200_SN_BST_INSERT.cpp">
+    <ClCompile Include="TU01001_SN_VECTOR_PUSH_BACK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00004_SN_VECTOR_SORT.cpp">
+    <ClCompile Include="TU01002_SN_VECTOR_AT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU00003_SN_VECTOR_RESERVE.cpp">
+    <ClCompile Include="TU01003_SN_VECTOR_RESERVE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU01004_SN_VECTOR_SORT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU04001_SN_BST_INSERT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU03001_SN_LIST_PUSH_BACK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU02001_SN_DEQUE_PUSH_BACK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU02002_SN_DEQUE_PUSH_FRONT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU02003_SN_DEQUE_PUSH_CLEAR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU03002_SN_LIST_PUSH_FRONT.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU03003_SN_LIST_FULL_EMPTY_CLEAR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

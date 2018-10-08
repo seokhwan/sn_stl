@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // This file is part of "the SN_STL"
 // For conditions of distribution and use, see copyright notice in 
 // <sn_stl/sn_stl.h>
@@ -11,12 +11,12 @@
 
 #include <vector>
 
-SATES_TEST_INIT(TU00002_SN_VECTOR_AT)
+SATES_TEST_INIT(TU01002_SN_VECTOR_AT)
 {
 
 }
 
-SATES_TEST_RUN(TU00002_SN_VECTOR_AT)
+SATES_TEST_RUN(TU01002_SN_VECTOR_AT)
 {
 	std::vector<uint32_t> stdvec;
 	sn_std::sn_vector<uint32_t> snvec(256U);
@@ -31,11 +31,11 @@ SATES_TEST_RUN(TU00002_SN_VECTOR_AT)
 	// it makes a segmentation violation
 	//stdvec.at(40U); 
 
-	// 
+	// exception handler shall be called
 	snvec.at(40U);
 }
 
-SATES_TEST_TERMINATE(TU00002_SN_VECTOR_AT)
+SATES_TEST_TERMINATE(TU01002_SN_VECTOR_AT)
 {
 
 }

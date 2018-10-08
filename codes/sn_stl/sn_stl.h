@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------
 //
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // 
 // The SN_STL, New BSD License (or Modified BSD Licnese)
 //

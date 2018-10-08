@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (C) 2018, Seokhwan Kim (kim at seokhwan.net)
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
 // This file is part of "the SN_STL"
 // For conditions of distribution and use, see copyright notice in 
 // <sn_stl/sn_stl.h>
@@ -8,70 +8,90 @@
 #ifndef __SN_STL_SN_VECTOR_H__
 #define __SN_STL_SN_VECTOR_H__
 
-#include <sn_stl/sn_stl.h>
+#include <sn_stl/tr1/sn_exception.h>
 
 namespace sn_std
 {
+	enum VECTOR_EXCEPTION
+	{
+		VECTOR_EXCEPTION_BEGIN = 1000,
+		VECTOR_EXCEPTION_PUSH_BACK_OVERFLOW,
+		VECTOR_EXCEPTION_POP_BACK_NO_ELEM,
+		VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE,
+		VECTOR_EXCEPTION_END
+	};
+
 	template <typename T>
 	class sn_vector
 	{
 	public:
-		sn_vector(int32_t vec_capacity)
+		sn_vector(uint32_t vec_capacity)
 		{
 			m_p_arr = new T[vec_capacity];
 			m_capacity = vec_capacity;
-			m_size = 0;
+			m_size = 0U;
 		}
 		~sn_vector()
 		{
 			destroy();
 		}
 
-		int32_t size() const 
+		uint32_t size() const
 		{
 			return m_size;
 		}
 
-		int32_t capacity() const
+		uint32_t capacity() const
 		{
 			return m_capacity;
 		}
 
 		void clear()
 		{
-			m_size = 0;
+			m_size = 0U;
 		}
 
 		bool empty() const
 		{
-			return (0 == m_size);
+			return (0U == m_size);
 		}
 
 		void push_back(const T& val)
 		{
-			m_p_arr[m_size] = val;
-			++m_size;
+			if (m_size < m_capacity)
+			{
+				m_p_arr[m_size] = val;
+				++m_size;
+			}
+			else
+			{
+				tr1::sn_exception::handle(VECTOR_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_vec::push_back()");
+			}
 		}
 
 		void pop_back()
 		{
-			if (m_size > 0)
+			if (m_size > 0U)
 			{
 				--m_size;
+			}
+			else
+			{
+				tr1::sn_exception::handle(VECTOR_EXCEPTION_POP_BACK_NO_ELEM, "sn_vec::pop_back()");
 			}
 		}
 
 		const T& back() const
 		{
-			return m_p_arr[m_size - 1];
+			return m_p_arr[m_size - 1U];
 		}
 
 		const T& front() const
 		{
-			return m_p_arr[0];
+			return m_p_arr[0U];
 		}
 
-		T& at(int32_t idx)
+		T& at(uint32_t idx)
 		{
 			if (idx < m_size)
 			{
@@ -79,16 +99,17 @@ namespace sn_std
 			}
 			else
 			{
-				// elegant way to make an error necessary
+				tr1::sn_exception::handle(VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE, "sn_vector::at()");
 			}
+			return m_p_arr[0U];
 		}
 
-		T& operator[] (int32_t idx)
+		T& operator[] (uint32_t idx)
 		{
 			return this->at(idx);
 		}
 
-		void reserve(int32_t new_capacity)
+		void reserve(uint32_t new_capacity)
 		{
 			// run if new_capacity  is bigger than current capacity
 			// otherwise, do nothing
@@ -98,11 +119,11 @@ namespace sn_std
 				T* new_arr = new T[new_capacity];
 
 				// - backup all data
-				for (int32_t i = 0; i < m_size; i++)
+				for (uint32_t i = 0U; i < m_size; ++i)
 				{
 					new_arr[i] = m_p_arr[i];
 				}
-				int32_t cursize = m_size;
+				uint32_t cursize = m_size;
 
 				// - destroy current array
 				destroy();
@@ -119,7 +140,7 @@ namespace sn_std
 
 		iterator begin()
 		{
-			return &(m_p_arr[0]);
+			return &(m_p_arr[0U]);
 		}
 
 		const_iterator begin() const
@@ -143,15 +164,15 @@ namespace sn_std
 			if (nullptr != m_p_arr)
 			{
 				delete[] m_p_arr;
-				m_size = 0;
-				m_capacity = 0;
+				m_size = 0U;
+				m_capacity = 0U;
 			}
 		}
 
 	protected:
 		T* m_p_arr;
-		int32_t m_size;
-		int32_t m_capacity;
+		uint32_t m_size;
+		uint32_t m_capacity;
 	};
 }
 
