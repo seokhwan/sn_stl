@@ -10,6 +10,7 @@
 #define __SN_STL_TR1_SN_BBST_H__
 
 #include <sn_stl/sn_vector.h>
+#include <utility>
 #include <cstring>
 #include <algorithm>
 
@@ -26,7 +27,7 @@ namespace sn_std
 		BBST : Balanced Binary Search Tree 
 		(AKA AVL (Adelson-Velskii and Landis) Tree)
 		*/
-		template <typename T>
+		template <typename key_t, typename elem_t>
 		class sn_bbst
 		{
 		protected:
@@ -42,23 +43,68 @@ namespace sn_std
 				{
 					p_left = nullptr;
 					p_right = nullptr;
+					p_parent = nullptr;
 					height = 0;
-					std::memset(&element, 0, sizeof(T));
+					std::memset(&key, 0, sizeof(key_t));
+					std::memset(&element, 0, sizeof(elem_t));
 				}
 
 				node* p_left;
 				node* p_right;
+				node* p_parent;
 				int32_t height;
-				T element;
+				key_t key;
+				elem_t element;
 			};
 		public:
-			sn_bbst(int32_t capacity) :
+			////////////////////////////////////////
+			// iterator def
+			////////////////////////////////////////
+			class const_iterator : public std::pair<key_t, elem_t>
+			{
+			public:
+				const_iterator() : p_cur(nullptr), p_tree(nullptr) {}
+				const_iterator(const node* p_node, const sn_bbst<key_t, elem_t>* ttree) : p_cur(p_node), p_tree(ttree) {}
+
+				const_iterator operator++()
+				{
+					if (nullptr != p_cur->p_right)
+					{
+						p_cur = p_tree->_find_min(p_cur->p_right);
+					}
+					else
+					{
+						if (this->p_cur->p_parent->key > this->p_cur->key)
+						{
+							p_cur = p_cur->p_parent;
+						}
+						else
+						{
+							p_cur = p_cur->p_parent->p_parent;
+						}
+					}
+					this->first = p_cur->key;
+					this->second = p_cur->element;
+					return (*this);
+				}
+
+			protected:
+				
+				const node* p_cur;
+
+				const_iterator(node* p) : p_cur(p) {}
+				const sn_bbst<key_t, elem_t>* p_tree;
+
+				friend class sn_bbst<key_t, elem_t>;
+			};
+
+			sn_bbst(uint32_t capacity) :
 				m_capacity(capacity),
 				m_size(0),
 				m_p_root(nullptr)
 			{
 				m_p_vec = new sn_vector<node* >(capacity);
-				for (int i = 0; i < capacity; ++i)
+				for (uint32_t i = 0U; i < capacity; ++i)
 				{
 					m_p_vec->push_back(new node());
 				}
@@ -67,7 +113,7 @@ namespace sn_std
 			~sn_bbst()
 			{
 				clear();
-				for (int i = 0; i < m_capacity; ++i)
+				for (uint32_t i = 0U; i < m_capacity; ++i)
 				{
 					node* p_node = m_p_vec->back(); 
 					delete p_node;
@@ -76,33 +122,38 @@ namespace sn_std
 				delete m_p_vec;
 			}
 
-			const T& find_min() const
+			const_iterator begin() const
+			{
+				return const_iterator(find_min(), this);
+			}
+
+			const node* find_min() const
 			{
 				return _find_min(m_p_root);
 			}
-			const T& find_max() const
+			const node* find_max() const
 			{
 				return _find_max(m_p_root);
 			}
 
-			bool contains(const T& elem) const
+			bool contains(const key_t& keyval) const
 			{
-				return _contains(elem, m_p_root);
+				return _contains(keyval, m_p_root);
 			}
 
 			bool empty() const
 			{
-
+				return (0U == m_size);
 			}
 
-			void insert(const T& elem)
+			void insert(const key_t& keyval, const elem_t& val)
 			{
-				_insert(elem, m_p_root);
+				_insert(keyval, m_p_root, m_p_root, val);
 			}
 
-			void remove(const T& elem)
+			void remove(const key_t& keyval)
 			{
-				_remove(elem, m_p_root);
+				_remove(keyval, m_p_root);
 			}
 
 			void clear()
@@ -111,19 +162,19 @@ namespace sn_std
 			}
 
 		protected:
-			bool _contains(const T& elem, node* p_node) const
+			bool _contains(const key_t& keyval, node* p_node) const
 			{
 				if (nullptr == p_node)
 				{
 					return nullptr;
 				}
-				else if (elem < p_node->element)
+				else if (keyval < p_node->key)
 				{
-					return _contains(elem, p_node->p_left);
+					return _contains(keyval, p_node->p_left);
 				}
-				else if (elem > p_node->element)
+				else if (keyval > p_node->key)
 				{
-					return _contains(elem, p_node->p_right);
+					return _contains(keyval, p_node->p_right);
 				}
 				else
 				{
@@ -131,21 +182,24 @@ namespace sn_std
 				}
 			}
 
-			void _insert(const T& elem, node*& p_node)
+			void _insert(const key_t& keyval, node* p_parent_val, node*& p_node, const elem_t& val)
 			{
 				if (nullptr == p_node)
 				{
 					p_node = m_p_vec->back();
+					m_p_vec->pop_back();
 					p_node->reset();
-					p_node->element = elem;
+					p_node->key = keyval;
+					p_node->p_parent = p_parent_val;
+					p_node->element = val;
 				}
-				else if (elem < p_node->element)
+				else if (keyval < p_node->key)
 				{
-					_insert(elem, p_node->p_left);
+					_insert(keyval, p_node, p_node->p_left, val);
 				}
-				else if (elem > p_node->element)
+				else if (keyval > p_node->key)
 				{
-					_insert(elem, p_node->p_right);
+					_insert(keyval, p_node, p_node->p_right, val);
 				}
 				else
 				{
@@ -155,7 +209,7 @@ namespace sn_std
 				_balance(p_node);
 			}
 
-			void _remove(const T& elem, node*& p_node)
+			void _remove(const key_t& keyval, node*& p_node)
 			{
 				if (nullptr == p_node)
 				{
@@ -163,13 +217,13 @@ namespace sn_std
 					return;
 				}
 
-				if (elem < p_node->element)
+				if (keyval < p_node->key)
 				{
-					_remove(elem, p_node->p_left);
+					_remove(keyval, p_node->p_left);
 				}
-				else if (elem > p_node->element)
+				else if (keyval > p_node->key)
 				{
-					_remove(elem, p_node->p_right);
+					_remove(keyval, p_node->p_right);
 				}
 				// Because it passed abvoe two if statements,
 				// it means this node is matched.
@@ -178,8 +232,8 @@ namespace sn_std
 					(nullptr != p_node->p_left) &&
 					(nullptr != p_node->p_right))
 				{
-					p_node->element = _find_min(p_node->p_right)->element;
-					_remove(p_node->element, p_node->p_right);
+					p_node->key = _find_min(p_node->p_right)->key;
+					_remove(p_node->key, p_node->p_right);
 				}
 				// when it has only one children / no child
 				// actually remove node in here
@@ -249,7 +303,7 @@ namespace sn_std
 				return p_node;
 			}
 
-			void _balance(node* p_node)
+			void _balance(node*& p_node)
 			{
 				static const int32_t ALLOWED_IMBALANCE = 1;
 				if (nullptr == p_node)
@@ -268,7 +322,7 @@ namespace sn_std
 					}
 					else
 					{
-						_rotate_right(p_node);
+						_double_rotate_left(p_node);
 					}
 				}
 				else if ((_get_height(p_node->p_right) - _get_height(p_node->p_left)) > ALLOWED_IMBALANCE)
@@ -279,7 +333,7 @@ namespace sn_std
 					}
 					else
 					{
-						_rotate_left(p_node);
+						_double_rotate_right(p_node);
 					}
 				}
 
@@ -290,7 +344,15 @@ namespace sn_std
 			{
 				node* p1 = p2->p_left;
 				p2->p_left = p1->p_right;
+				if (nullptr != p1->p_right)
+				{
+					p1->p_right->p_parent = p2;
+				}
+
 				p1->p_right = p2;
+				p1->p_parent = p2->p_parent;
+				p2->p_parent = p1;
+
 				p2->height = std::max(_get_height(p2->p_left), _get_height(p2->p_right)) + 1;
 				p1->height = std::max(_get_height(p1->p_left), p2->height) + 1;
 				p2 = p1;
@@ -300,7 +362,15 @@ namespace sn_std
 			{
 				node* p1 = p2->p_right;
 				p2->p_right = p1->p_left;
+				if (nullptr != p1->p_left)
+				{
+					p1->p_left->p_parent = p2;
+				}
+
 				p1->p_left = p2;
+				p1->p_parent = p2->p_parent;
+				p2->p_parent = p1;
+
 				p2->height = std::max(_get_height(p2->p_right), _get_height(p2->p_left)) + 1;
 				p1->height = std::max(_get_height(p1->p_right), p2->height) + 1;
 				p2 = p1;
@@ -331,8 +401,8 @@ namespace sn_std
 			}
 
 		protected:
-			int32_t m_capacity;
-			int32_t m_size;
+			uint32_t m_capacity;
+			uint32_t m_size;
 			node* m_p_root;
 			sn_vector<node*>* m_p_vec;
 		};

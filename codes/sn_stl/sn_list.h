@@ -17,10 +17,12 @@ namespace sn_std
 	enum LIST_EXCEPTION
 	{
 		LIST_EXCEPTION_BEGIN = 3000,
-		LIST_EXCEPTION_PUSH_BACK_OVERFLOW,
-		LIST_EXCEPTION_POP_BACK_NO_ELEM,
+		LIST_EXCEPTION_FRONT_NO_ELEM,
+		LIST_EXCEPTION_BACK_NO_ELEM,
 		LIST_EXCEPTION_PUSH_FRONT_OVERFLOW,
+		LIST_EXCEPTION_PUSH_BACK_OVERFLOW,
 		LIST_EXCEPTION_POP_FRONT_NO_ELEM,
+		LIST_EXCEPTION_POP_BACK_NO_ELEM,
 		LIST_EXCEPTION_END
 	};
 
@@ -49,6 +51,9 @@ namespace sn_std
 		};
 
 	public:
+		////////////////////////////////////////
+		// iterator def
+		////////////////////////////////////////
 		class const_iterator
 		{
 		public:
@@ -153,6 +158,9 @@ namespace sn_std
 		};
 
 	public:
+		////////////////////////////////////////
+		// constructor & destructor
+		////////////////////////////////////////
 		sn_list(uint32_t capacity) : 
 			m_capacity(capacity),
 			m_vecsize(capacity + 1U),
@@ -176,6 +184,34 @@ namespace sn_std
 			delete m_p_vec;
 		}
 
+		////////////////////////////////////////
+		// iterators
+		////////////////////////////////////////
+		iterator begin()
+		{
+			return m_p_head;
+		}
+
+		iterator end()
+		{
+			return m_p_tail;
+		}
+
+		const_iterator begin() const
+		{
+			const_iterator itr(*this, m_p_head);
+			return itr;
+		}
+
+		const_iterator end() const
+		{
+			const_iterator itr(*this, m_p_tail);
+			return itr;
+		}
+
+		////////////////////////////////////////
+		// capacity
+		////////////////////////////////////////
 		uint32_t size() const
 		{
 			return m_size;
@@ -186,37 +222,6 @@ namespace sn_std
 			return m_capacity - 1U;
 		}
 
-		const_iterator begin() const
-		{
-			const_iterator itr(*this, m_p_head);
-			return itr;
-		}
-
-		iterator begin()
-		{
-			return m_p_head;
-		}
-
-		const_iterator end() const
-		{
-			const_iterator itr(*this, m_p_tail);
-			return itr;
-		}
-
-		iterator end()
-		{
-			return m_p_tail;
-		}
-
-		void clear()
-		{
-			uint32_t cursize = m_size;
-			for (uint32_t i = 0; i < cursize; ++i)
-			{
-				pop_back();
-			}
-		}
-
 		bool empty() const
 		{
 			return (0 == m_size);
@@ -225,6 +230,60 @@ namespace sn_std
 		bool full() const
 		{
 			return (m_size == m_capacity);
+		}
+
+		////////////////////////////////////////
+		// element access
+		////////////////////////////////////////
+		const T& front() const
+		{
+			if (0U == m_size)
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_FRONT_NO_ELEM, "sn_list::front()");
+			}
+
+			return m_p_head->element;
+		}
+
+		const T& back() const
+		{
+			if (0U == m_size)
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_BACK_NO_ELEM, "sn_list::back()");
+			}
+
+			return m_p_tail->p_prev->element;
+		}
+
+		////////////////////////////////////////
+		// modifiers
+		////////////////////////////////////////
+		void push_front(const T& elem)
+		{
+			if (m_size < m_capacity)
+			{
+				if (nullptr == m_p_head)
+				{
+					push_back(elem);
+				}
+				else
+				{
+					m_size++;
+					node* p_node = m_p_vec->back();
+					p_node->reset();
+					m_p_vec->pop_back();
+
+					p_node->element = elem;
+
+					m_p_head->p_prev = p_node;
+					p_node->p_next = m_p_head;
+					m_p_head = p_node;
+				}
+			}
+			else
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_list::push_front()");
+			}
 		}
 
 		void push_back(const T& elem)
@@ -264,6 +323,29 @@ namespace sn_std
 			}
 		}
 
+		void pop_front()
+		{
+			if (0U == m_size)
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_POP_FRONT_NO_ELEM, "sn_list::pop_front()");
+			}
+			else
+			{
+				if (1U == m_size)
+				{
+					m_p_vec->push_back(m_p_tail);
+					m_p_vec->push_back(m_p_head);
+				}
+				else
+				{
+					m_p_vec->push_back(m_p_head);
+					m_p_head = m_p_head->p_next;
+					m_p_head->p_prev = nullptr;
+				}
+				--m_size;
+			}
+		}
+
 		void pop_back()
 		{
 			if (0U == m_size)
@@ -288,84 +370,15 @@ namespace sn_std
 			}
 		}
 
-		void push_front(const T& elem)
+		void clear()
 		{
-			if (m_size < m_capacity)
+			uint32_t cursize = m_size;
+			for (uint32_t i = 0; i < cursize; ++i)
 			{
-				if (nullptr == m_p_head)
-				{
-					push_back(elem);
-				}
-				else
-				{
-					m_size++;
-					node* p_node = m_p_vec->back();
-					p_node->reset();
-					m_p_vec->pop_back();
-
-					p_node->element = elem;
-
-					m_p_head->p_prev = p_node;
-					p_node->p_next = m_p_head;
-					m_p_head = p_node;
-				}
-			}
-			else
-			{
-				tr1::sn_exception::handle(LIST_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_list::push_front()");
+				pop_back();
 			}
 		}
-
-		void pop_front()
-		{
-			if (0U == m_size)
-			{
-				tr1::sn_exception::handle(LIST_EXCEPTION_POP_FRONT_NO_ELEM, "sn_list::pop_front()");
-			}
-			else
-			{
-				if (1U == m_size)
-				{
-					m_p_vec->push_back(m_p_tail);
-					m_p_vec->push_back(m_p_head);
-				}
-				else
-				{
-					m_p_vec->push_back(m_p_head);
-					m_p_head = m_p_head->p_next;
-					m_p_head->p_prev = nullptr;
-				}
-				--m_size;
-			}
-		}
-
-		const T& back() const
-		{
-		}
-
-		const T& front() const
-		{
-		}
-
-
-	protected:
-		node* _get_tail()
-		{
-			if (nullptr == m_p_head)
-			{
-				return m_p_head;
-			}
-			else
-			{
-				node* p_node = m_p_head;
-				while (nullptr != p_node->p_next)
-				{
-					p_node = p_node->p_next;
-				}
-				return p_node;
-			}
-		}
-
+		
 	protected:
 		uint32_t m_capacity;
 		uint32_t m_vecsize;

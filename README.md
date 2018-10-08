@@ -2,6 +2,7 @@
 |  Date  | Log  | Written by   | Confirmed By  | 
 |---|---|---|---|
 |  6 Oct 2018 | First draft  | Seokhwan Kim |  User  |
+|  8 Oct 2018 | script directory added, sn_exception class added  | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.

@@ -16,13 +16,13 @@ namespace sn_std
 	enum DEQUE_EXCEPTION
 	{
 		DEQUE_EXCEPTION_BEGIN = 2000,
+		DEQUE_EXCEPTION_FRONT_NO_ELEM,
+		DEQUE_EXCEPTION_BACK_NO_ELEM,
+		DEQUE_EXCEPTION_AT_NO_ELEM,
 		DEQUE_EXCEPTION_PUSH_FRONT_OVERFLOW,
 		DEQUE_EXCEPTION_PUSH_BACK_OVERFLOW,
 		DEQUE_EXCEPTION_POP_FRONT_NO_ELEM,
 		DEQUE_EXCEPTION_POP_BACK_NO_ELEM,
-		DEQUE_EXCEPTION_FRONT_NO_ELEM,
-		DEQUE_EXCEPTION_AT_NO_ELEM,
-		DEQUE_EXCEPTION_BACK_NO_ELEM,
 		DEQUE_EXCEPTION_END
 	};
 
@@ -30,6 +30,15 @@ namespace sn_std
 	class sn_deque
 	{
 	public:
+		////////////////////////////////////////
+		// iterator def
+		////////////////////////////////////////
+		typedef T* iterator;
+		typedef const T& const_iterator;
+
+		////////////////////////////////////////
+		// constructors & destructor
+		////////////////////////////////////////
 		sn_deque(uint32_t capacity)
 		{
 			m_is_allocated = true;
@@ -45,21 +54,106 @@ namespace sn_std
 			}
 		}
 
+		////////////////////////////////////////
+		// iterators
+		////////////////////////////////////////
+		iterator begin()
+		{
+			return &(m_p_arr[m_head]);
+		}
+
+		iterator end()
+		{
+			return &(m_p_arr[m_tail]);
+		}
+
+		const_iterator begin() const
+		{
+			return const_cast<sn_deque<T>*>(this)->begin();
+		}
+
+		const_iterator end() const
+		{
+			return const_cast<sn_deque<T>*>(this)->end();
+		}
+
+		////////////////////////////////////////
+		// capacity
+		////////////////////////////////////////
+		uint32_t size() const
+		{
+			return m_size;
+		}
+
 		uint32_t capacity() const
 		{
 			return m_capacity;
 		}
 
-		void clear()
+		bool empty()
 		{
-			m_size = 0;
+			return (0U == m_size);
 		}
 
-		bool empty() const
+		bool full()
 		{
-			return (0 == m_size);
+			return (m_capacity == m_size);
 		}
-			
+
+		////////////////////////////////////////
+		// element access
+		////////////////////////////////////////
+		T& front()
+		{
+			if (m_size < 1U)
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_FRONT_NO_ELEM, "sn_deque::front()");
+			}
+			return (m_p_arr[m_head]);
+		}
+
+		T& back() const
+		{
+			if (m_size < 1U)
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_BACK_NO_ELEM, "sn_deque::back()");
+			}
+
+			if (0U == m_tail)
+			{
+				return m_p_arr[m_index_max];
+			}
+			else
+			{
+				return (m_p_arr[m_tail - 1U]);
+			}
+		}
+
+		T& operator[] (uint32_t idx)
+		{
+			return this->at(idx);
+		}
+
+		T& at(uint32_t index) const
+		{
+			if (m_size < 1U)
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");
+			}
+
+			if (m_index_max >= m_head + index)
+			{
+				return (m_p_arr[m_head + index]);
+			}
+			else
+			{
+				return (m_p_arr[m_head + index - m_capacity]);
+			}
+		}
+
+		////////////////////////////////////////
+		// modifiers
+		////////////////////////////////////////
 		void push_front(const T& data)
 		{
 			if (full())
@@ -68,20 +162,20 @@ namespace sn_std
 			}
 			else
 			{
-				m_front--;
-				if (-1 == m_front)
+				m_head--;
+				if (-1 == m_head)
 				{
-					m_front = m_index_max;
+					m_head = m_index_max;
 				}
 
-				m_p_arr[m_front] = data;
+				m_p_arr[m_head] = data;
 
 				_increment_size();
 				if (full())
 				{
-					m_tail = m_front;
+					m_tail = m_head;
 				}
-			}	
+			}
 		}
 
 		void push_back(const T& data)
@@ -102,7 +196,7 @@ namespace sn_std
 				}
 				if (full())
 				{
-					m_front = m_tail;
+					m_head = m_tail;
 				}
 			}
 		}
@@ -111,13 +205,13 @@ namespace sn_std
 		{
 			if (m_size > 0U)
 			{
-				if (m_index_max == m_front)
+				if (m_index_max == m_head)
 				{
-					m_front = 0U;
+					m_head = 0U;
 				}
 				else
 				{
-					m_front++;
+					m_head++;
 				}
 				m_size--;
 			}
@@ -147,68 +241,16 @@ namespace sn_std
 			}
 		}
 
-		T& front()
+		void clear()
 		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_FRONT_NO_ELEM, "sn_deque::front()");
-			}
-			return (m_p_arr[m_front]);
+			m_size = 0;
 		}
 
-		T& at(uint32_t index) const
-		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");
-			}
-
-			if (m_index_max >= m_front + index)
-			{
-				return (m_p_arr[m_front + index]);
-			}
-			else
-			{
-				return (m_p_arr[m_front + index - m_capacity]);
-			}
-		}
-
-		T& back() const
-		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_BACK_NO_ELEM, "sn_deque::back()");
-			}
-
-			if (0U == m_tail)
-			{
-				return m_p_arr[m_index_max];
-			}
-			else
-			{
-				return (m_p_arr[m_tail - 1U]);
-			}
-		}
-
-		uint32_t size() const
-		{
-			return m_size;
-		}
-
-		bool empty()
-		{
-			return (0U == m_size);
-		}
-
-		bool full()
-		{
-			return (m_capacity == m_size);
-		}
 
 	protected:
 		void _init()
 		{
-			m_front = 0;
+			m_head = 0;
 			m_tail = 0;
 			m_index_max = m_capacity - 1U;
 			m_size = 0;
@@ -226,7 +268,7 @@ namespace sn_std
 	protected:
 		uint32_t m_tail;
 		uint32_t m_capacity;
-		uint32_t m_front;
+		uint32_t m_head;
 		uint32_t m_size;
 
 		uint32_t m_index_max;
