@@ -54,88 +54,14 @@ namespace sn_std
 		////////////////////////////////////////
 		// iterator def
 		////////////////////////////////////////
-		class const_iterator
+		class iterator
 		{
 		public:
-			const_iterator() : p_cur(nullptr) {}
-			const T& operator*() const
+			iterator() : p_cur(nullptr) {}
+
+			T& operator*() const
 			{
-				return retrieve();
-			}
-
-			const_iterator operator++()
-			{
-				this->p_cur = this->p_cur->p_next;
-				return (*this);
-			}
-
-			const_iterator operator++(int)
-			{
-				const_iterator old = *this;
-				++(*this);
-				return old;
-			}
-
-			const_iterator operator--()
-			{
-				this->p_cur = this->p_cur->p_prev;
-				return (*this);
-			}
-
-			const_iterator operator--(int)
-			{
-				const_iterator old = *this;
-				--(*this);
-				return old;
-			}
-
-			bool operator==(const const_iterator& rhs) const
-			{
-				return (rhs.p_cur == p_cur);
-			}
-			bool operator!=(const const_iterator& rhs) const
-			{
-				return (rhs.p_cur != p_cur);
-			}
-		protected:
-			node* p_cur;
-			T& retrieve() const
-			{
-				return p_cur->element;
-			}
-
-			const_iterator(node* p) : p_cur(p) {}
-
-			friend class sn_list<T>;
-		};
-
-
-		class iterator : public const_iterator
-		{
-		public:
-			iterator() {}
-
-			T& operator*()
-			{
-				return const_iterator::retrieve();
-			}
-
-			const T& operator*() const
-			{
-				return const_iterator::operator*();
-			}
-
-			iterator operator--()
-			{
-				this->p_cur = this->p_cur->p_prev;
-				return (*this);
-			}
-
-			iterator operator--(int)
-			{
-				iterator old = *this;
-				--(*this);
-				return old;
+				return const_cast<T&>(p_cur->element);
 			}
 
 			iterator operator++()
@@ -151,8 +77,69 @@ namespace sn_std
 				return old;
 			}
 
+			iterator operator--()
+			{
+				this->p_cur = this->p_cur->p_prev;
+				return (*this);
+			}
+
+			iterator operator--(int)
+			{
+				const_iterator old = *this;
+				--(*this);
+				return old;
+			}
+
+			bool operator==(const iterator& rhs) const
+			{
+				return (rhs.p_cur == p_cur);
+			}
+			bool operator!=(const iterator& rhs) const
+			{
+				return (rhs.p_cur != p_cur);
+			}
+
 		protected:
-			iterator(node* p) : const_iterator(p) {}
+			const node* p_cur;
+			
+			iterator(const node* p) : p_cur(p) {}
+			friend class sn_list<T>;
+		};
+
+
+		class const_iterator : public iterator
+		{
+		public:
+			const_iterator() {}
+
+			const T& operator*() const
+			{
+				return iterator::operator*();
+			}
+			
+			const_iterator operator--()
+			{
+				return const_iterator(iterator::operator--());
+			}
+
+			const_iterator operator--(int)
+			{
+				return const_iterator(iterator::operator--(0));
+			}
+
+			const_iterator operator++()
+			{
+				return const_iterator(iterator::operator++());
+			}
+
+			const_iterator operator++(int)
+			{
+				return const_iterator(iterator::operator++(0));
+			}
+
+		protected:
+			const_iterator(const node* p) : iterator(p) {}
+			const_iterator(const iterator iter) : iterator(iter) {}
 
 			friend class sn_list<T>;
 		};
@@ -197,16 +184,14 @@ namespace sn_std
 			return m_p_tail;
 		}
 
-		const_iterator begin() const
+		const_iterator cbegin() const
 		{
-			const_iterator itr(*this, m_p_head);
-			return itr;
+			return const_iterator(m_p_head);
 		}
 
-		const_iterator end() const
+		const_iterator cend() const
 		{
-			const_iterator itr(*this, m_p_tail);
-			return itr;
+			return const_iterator(m_p_tail);
 		}
 
 		////////////////////////////////////////
@@ -219,7 +204,7 @@ namespace sn_std
 
 		uint32_t capacity() const
 		{
-			return m_capacity - 1U;
+			return m_capacity;
 		}
 
 		bool empty() const

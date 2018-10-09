@@ -30,7 +30,7 @@ SATES_TEST_RUN(TU03002_SN_LIST_PUSH_FRONT)
 	--it;
 	SATES_EQ(*it, 51);
 
-	--it;
+	it--;
 	SATES_EQ(*it, 52);
 
 	--it;

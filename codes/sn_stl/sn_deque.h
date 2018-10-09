@@ -67,12 +67,12 @@ namespace sn_std
 			return &(m_p_arr[m_tail]);
 		}
 
-		const_iterator begin() const
+		const_iterator cbegin() const
 		{
 			return const_cast<sn_deque<T>*>(this)->begin();
 		}
 
-		const_iterator end() const
+		const_iterator cend() const
 		{
 			return const_cast<sn_deque<T>*>(this)->end();
 		}

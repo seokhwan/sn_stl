@@ -1,0 +1,391 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>sn_list.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+	<body onload="prettyPrint()">
+        <h4></h4>
+		<pre class="prettyprint lang-cpp linenums">
+//------------------------------------------------------------------------------
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
+// This file is part of "the SN_STL"
+// For conditions of distribution and use, see copyright notice in 
+// &lt;sn_stl/sn_stl.h&gt;
+//------------------------------------------------------------------------------
+
+
+#ifndef __SN_STL_SN_LIST_H__
+#define __SN_STL_SN_LIST_H__
+
+#include &lt;sn_stl/sn_vector.h&gt;
+#include &lt;cstring&gt;
+
+namespace sn_std
+{
+	enum LIST_EXCEPTION
+	{
+		LIST_EXCEPTION_BEGIN = 3000,
+		LIST_EXCEPTION_FRONT_NO_ELEM,
+		LIST_EXCEPTION_BACK_NO_ELEM,
+		LIST_EXCEPTION_PUSH_FRONT_OVERFLOW,
+		LIST_EXCEPTION_PUSH_BACK_OVERFLOW,
+		LIST_EXCEPTION_POP_FRONT_NO_ELEM,
+		LIST_EXCEPTION_POP_BACK_NO_ELEM,
+		LIST_EXCEPTION_END
+	};
+
+	template &lt;typename T&gt;
+	class sn_list
+	{
+	protected:
+		class node
+		{
+		public:
+<span style = "background-color:#dfd">			node()</span>
+			{
+<span style = "background-color:#dfd">				reset();
+			}</span>
+
+			void reset()
+<span style = "background-color:#dfd">			{
+				p_prev = nullptr;
+				p_next = nullptr;
+				std::memset(&amp;element, 0, sizeof(T));
+			}</span>
+
+			node* p_prev;
+			node* p_next;
+			T element;
+		};
+
+	public:
+		////////////////////////////////////////
+		// iterator def
+		////////////////////////////////////////
+		class iterator
+		{
+		public:
+			iterator() : p_cur(nullptr) {}
+
+			T&amp; operator*() const
+<span style = "background-color:#dfd">			{
+				return const_cast&lt;T&amp;&gt;(p_cur-&gt;element);
+			}</span>
+
+			iterator operator++()
+<span style = "background-color:#dfd">			{
+				this-&gt;p_cur = this-&gt;p_cur-&gt;p_next;
+				return (*this);
+			}</span>
+
+			iterator operator++(int)
+<span style = "background-color:#dfd">			{
+				iterator old = *this;
+				++(*this);
+				return old;
+			}</span>
+
+			iterator operator--()
+<span style = "background-color:#dfd">			{
+				this-&gt;p_cur = this-&gt;p_cur-&gt;p_prev;
+				return (*this);
+			}</span>
+
+			iterator operator--(int)
+<span style = "background-color:#dfd">			{
+				const_iterator old = *this;
+				--(*this);
+				return old;
+			}</span>
+
+			bool operator==(const iterator&amp; rhs) const
+<span style = "background-color:#dfd">			{
+				return (rhs.p_cur == p_cur);
+			}</span>
+			bool operator!=(const iterator&amp; rhs) const
+			{
+				return (rhs.p_cur != p_cur);
+			}
+
+		protected:
+			const node* p_cur;
+			
+<span style = "background-color:#dfd">			iterator(const node* p) : p_cur(p) {}</span>
+			friend class sn_list&lt;T&gt;;
+		};
+
+
+		class const_iterator : public iterator
+		{
+		public:
+			const_iterator() {}
+
+			const T&amp; operator*() const
+<span style = "background-color:#dfd">			{
+				return iterator::operator*();
+			}</span>
+			
+			const_iterator operator--()
+			{
+				return const_iterator(iterator::operator--());
+			}
+
+			const_iterator operator--(int)
+			{
+				return const_iterator(iterator::operator--(0));
+			}
+
+			const_iterator operator++()
+<span style = "background-color:#dfd">			{
+				return const_iterator(iterator::operator++());
+			}</span>
+
+			const_iterator operator++(int)
+<span style = "background-color:#dfd">			{
+				return const_iterator(iterator::operator++(0));
+			}</span>
+
+		protected:
+<span style = "background-color:#dfd">			const_iterator(const node* p) : iterator(p) {}
+			const_iterator(const iterator iter) : iterator(iter) {}</span>
+
+			friend class sn_list&lt;T&gt;;
+		};
+
+	public:
+		////////////////////////////////////////
+		// constructor &amp; destructor
+		////////////////////////////////////////
+		sn_list(uint32_t capacity) : 
+<span style = "background-color:#dfd">			m_capacity(capacity),
+			m_vecsize(capacity + 1U),
+			m_size(0),
+			m_p_head(nullptr),
+			m_p_tail(nullptr)
+		{
+			m_p_vec = new sn_vector&lt;node* &gt;(m_vecsize);
+			for (uint32_t i = 0; i &lt; m_vecsize; ++i)</span>
+			{
+<span style = "background-color:#dfd">				m_p_vec-&gt;push_back(new node());
+			}
+		}</span>
+		~sn_list()
+<span style = "background-color:#dfd">		{
+			clear();
+			for (uint32_t i = 0; i &lt; m_vecsize; ++i)</span>
+			{
+<span style = "background-color:#dfd">				delete (m_p_vec-&gt;at(i));
+			}
+			delete m_p_vec;
+		}</span>
+
+		////////////////////////////////////////
+		// iterators
+		////////////////////////////////////////
+		iterator begin()
+<span style = "background-color:#dfd">		{
+			return m_p_head;
+		}</span>
+
+		iterator end()
+<span style = "background-color:#dfd">		{
+			return m_p_tail;
+		}</span>
+
+		const_iterator cbegin() const
+<span style = "background-color:#dfd">		{
+			return const_iterator(m_p_head);
+		}</span>
+
+		const_iterator cend() const
+<span style = "background-color:#dfd">		{
+			return const_iterator(m_p_tail);
+		}</span>
+
+		////////////////////////////////////////
+		// capacity
+		////////////////////////////////////////
+		uint32_t size() const
+<span style = "background-color:#dfd">		{
+			return m_size;
+		}</span>
+
+		uint32_t capacity() const
+		{
+			return m_capacity;
+		}
+
+		bool empty() const
+<span style = "background-color:#dfd">		{
+			return (0 == m_size);
+		}</span>
+
+		bool full() const
+<span style = "background-color:#dfd">		{
+			return (m_size == m_capacity);
+		}</span>
+
+		////////////////////////////////////////
+		// element access
+		////////////////////////////////////////
+		const T&amp; front() const
+		{
+			if (0U == m_size)
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_FRONT_NO_ELEM, "sn_list::front()");
+			}
+
+			return m_p_head-&gt;element;
+		}
+
+		const T&amp; back() const
+		{
+			if (0U == m_size)
+			{
+				tr1::sn_exception::handle(LIST_EXCEPTION_BACK_NO_ELEM, "sn_list::back()");
+			}
+
+			return m_p_tail-&gt;p_prev-&gt;element;
+		}
+
+		////////////////////////////////////////
+		// modifiers
+		////////////////////////////////////////
+		void push_front(const T&amp; elem)
+<span style = "background-color:#dfd">		{
+			if (m_size &lt; m_capacity)</span>
+			{
+<span style = "background-color:#dfd">				if (nullptr == m_p_head)</span>
+				{
+<span style = "background-color:#dfd">					push_back(elem);</span>
+				}
+<span style = "background-color:#dfd">				else</span>
+				{
+<span style = "background-color:#dfd">					m_size++;
+					node* p_node = m_p_vec-&gt;back();
+					p_node-&gt;reset();
+					m_p_vec-&gt;pop_back();</span>
+
+<span style = "background-color:#dfd">					p_node-&gt;element = elem;</span>
+
+<span style = "background-color:#dfd">					m_p_head-&gt;p_prev = p_node;
+					p_node-&gt;p_next = m_p_head;
+					m_p_head = p_node;</span>
+				}
+			}
+<span style = "background-color:#dfd">			else</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(LIST_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_list::push_front()");</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void push_back(const T&amp; elem)
+<span style = "background-color:#dfd">		{
+			if (m_size &lt; m_capacity)</span>
+			{
+<span style = "background-color:#dfd">				m_size++;
+				node* p_node = m_p_vec-&gt;back();
+				p_node-&gt;reset();
+				m_p_vec-&gt;pop_back();</span>
+
+<span style = "background-color:#dfd">				p_node-&gt;element = elem;</span>
+
+<span style = "background-color:#dfd">				if (nullptr == m_p_head)</span>
+				{
+<span style = "background-color:#dfd">					m_p_head = p_node;
+					m_p_tail = m_p_vec-&gt;back();
+					m_p_vec-&gt;pop_back();</span>
+
+<span style = "background-color:#dfd">					m_p_tail-&gt;reset();</span>
+
+<span style = "background-color:#dfd">					m_p_head-&gt;p_next = m_p_tail;
+					m_p_tail-&gt;p_prev = m_p_head;</span>
+				}
+
+<span style = "background-color:#dfd">				else</span>
+				{
+<span style = "background-color:#dfd">					m_p_tail-&gt;p_prev-&gt;p_next = p_node;
+					p_node-&gt;p_prev = m_p_tail-&gt;p_prev;
+					p_node-&gt;p_next = m_p_tail;
+					m_p_tail-&gt;p_prev = p_node;</span>
+				}
+			}
+<span style = "background-color:#dfd">			else</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(LIST_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_list::push_back()");</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void pop_front()
+<span style = "background-color:#dfd">		{
+			if (0U == m_size)</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(LIST_EXCEPTION_POP_FRONT_NO_ELEM, "sn_list::pop_front()");</span>
+			}
+<span style = "background-color:#fdd">			else</span>
+			{
+<span style = "background-color:#dfd">				if (1U == m_size)</span>
+				{
+<span style = "background-color:#fdd">					m_p_vec-&gt;push_back(m_p_tail);
+					m_p_vec-&gt;push_back(m_p_head);</span>
+				}
+<span style = "background-color:#fdd">				else</span>
+				{
+<span style = "background-color:#dfd">					m_p_vec-&gt;push_back(m_p_head);
+					m_p_head = m_p_head-&gt;p_next;
+					m_p_head-&gt;p_prev = nullptr;</span>
+				}
+<span style = "background-color:#dfd">				--m_size;</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void pop_back()
+<span style = "background-color:#dfd">		{
+			if (0U == m_size)</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(LIST_EXCEPTION_POP_BACK_NO_ELEM, "sn_list::pop_back()");</span>
+			}
+<span style = "background-color:#fdd">			else</span>
+			{
+<span style = "background-color:#dfd">				if (1U == m_size)</span>
+				{
+<span style = "background-color:#dfd">					m_p_vec-&gt;push_back(m_p_tail);
+					m_p_vec-&gt;push_back(m_p_head);</span>
+				}
+<span style = "background-color:#dfd">				else</span>
+				{
+<span style = "background-color:#dfd">					node* p_last = m_p_tail-&gt;p_prev;
+					p_last-&gt;p_prev-&gt;p_next = m_p_tail;
+					m_p_tail-&gt;p_prev = p_last-&gt;p_prev;
+					m_p_vec-&gt;push_back(p_last);</span>
+				}
+<span style = "background-color:#dfd">				--m_size;</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void clear()
+<span style = "background-color:#dfd">		{
+			uint32_t cursize = m_size;
+			for (uint32_t i = 0; i &lt; cursize; ++i)</span>
+			{
+<span style = "background-color:#dfd">				pop_back();
+			}
+		}</span>
+		
+	protected:
+		uint32_t m_capacity;
+		uint32_t m_vecsize;
+		uint32_t m_size;
+		node* m_p_head;
+		node* m_p_tail;
+		
+		sn_vector&lt;node*&gt;* m_p_vec;
+	};
+}
+
+#endif // __SN_STL_SN_LIST_H__</pre>
+	</body>
+</html>

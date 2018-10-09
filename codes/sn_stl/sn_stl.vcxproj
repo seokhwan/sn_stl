@@ -22,6 +22,7 @@
     <ClInclude Include="sn_deque.h" />
     <ClInclude Include="sn_list.h" />
     <ClInclude Include="sn_map.h" />
+    <ClInclude Include="sn_pair.h" />
     <ClInclude Include="sn_stl.h" />
     <ClInclude Include="sn_vector.h" />
     <ClInclude Include="tr1\sn_bbst.h" />
@@ -41,7 +42,8 @@
     <ClCompile Include="TU03001_SN_LIST_PUSH_BACK.cpp" />
     <ClCompile Include="TU03002_SN_LIST_PUSH_FRONT.cpp" />
     <ClCompile Include="TU03003_SN_LIST_FULL_EMPTY_CLEAR.cpp" />
-    <ClCompile Include="TU04001_SN_BST_INSERT.cpp" />
+    <ClCompile Include="TU04001_SN_BBST_EMPLACE.cpp" />
+    <ClCompile Include="TU04002_SN_BST_ITERATOR.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

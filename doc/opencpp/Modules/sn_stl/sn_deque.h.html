@@ -1,0 +1,294 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>sn_deque.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+	<body onload="prettyPrint()">
+        <h4></h4>
+		<pre class="prettyprint lang-cpp linenums">
+//------------------------------------------------------------------------------
+// Copyright (C) 2018 - present, Seokhwan Kim (kim at seokhwan.net)
+// This file is part of "the SN_STL"
+// For conditions of distribution and use, see copyright notice in 
+// &lt;sn_stl/sn_stl.h&gt;
+//------------------------------------------------------------------------------
+
+
+#ifndef __SN_STL_SN_DEQUE_H__
+#define __SN_STL_SN_DEQUE_H__
+
+#include &lt;sn_stl/tr1/sn_exception.h&gt;
+
+namespace sn_std
+{
+	enum DEQUE_EXCEPTION
+	{
+		DEQUE_EXCEPTION_BEGIN = 2000,
+		DEQUE_EXCEPTION_FRONT_NO_ELEM,
+		DEQUE_EXCEPTION_BACK_NO_ELEM,
+		DEQUE_EXCEPTION_AT_NO_ELEM,
+		DEQUE_EXCEPTION_PUSH_FRONT_OVERFLOW,
+		DEQUE_EXCEPTION_PUSH_BACK_OVERFLOW,
+		DEQUE_EXCEPTION_POP_FRONT_NO_ELEM,
+		DEQUE_EXCEPTION_POP_BACK_NO_ELEM,
+		DEQUE_EXCEPTION_END
+	};
+
+	template &lt;typename T&gt;
+	class sn_deque
+	{
+	public:
+		////////////////////////////////////////
+		// iterator def
+		////////////////////////////////////////
+		typedef T* iterator;
+		typedef const T&amp; const_iterator;
+
+		////////////////////////////////////////
+		// constructors &amp; destructor
+		////////////////////////////////////////
+<span style = "background-color:#dfd">		sn_deque(uint32_t capacity)</span>
+		{
+<span style = "background-color:#dfd">			m_is_allocated = true;
+			m_p_arr = new T[capacity];
+			m_capacity = capacity;
+			_init();
+		}</span>
+		~sn_deque()
+<span style = "background-color:#dfd">		{
+			if (m_is_allocated)</span>
+			{
+<span style = "background-color:#dfd">				delete[] m_p_arr;</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		////////////////////////////////////////
+		// iterators
+		////////////////////////////////////////
+		iterator begin()
+		{
+			return &amp;(m_p_arr[m_head]);
+		}
+
+		iterator end()
+		{
+			return &amp;(m_p_arr[m_tail]);
+		}
+
+		const_iterator cbegin() const
+		{
+			return const_cast&lt;sn_deque&lt;T&gt;*&gt;(this)-&gt;begin();
+		}
+
+		const_iterator cend() const
+		{
+			return const_cast&lt;sn_deque&lt;T&gt;*&gt;(this)-&gt;end();
+		}
+
+		////////////////////////////////////////
+		// capacity
+		////////////////////////////////////////
+		uint32_t size() const
+<span style = "background-color:#dfd">		{
+			return m_size;
+		}</span>
+
+		uint32_t capacity() const
+		{
+			return m_capacity;
+		}
+
+		bool empty()
+		{
+			return (0U == m_size);
+		}
+
+		bool full()
+<span style = "background-color:#dfd">		{
+			return (m_capacity == m_size);
+		}</span>
+
+		////////////////////////////////////////
+		// element access
+		////////////////////////////////////////
+		T&amp; front()
+		{
+			if (m_size &lt; 1U)
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_FRONT_NO_ELEM, "sn_deque::front()");
+			}
+			return (m_p_arr[m_head]);
+		}
+
+		T&amp; back() const
+		{
+			if (m_size &lt; 1U)
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_BACK_NO_ELEM, "sn_deque::back()");
+			}
+
+			if (0U == m_tail)
+			{
+				return m_p_arr[m_index_max];
+			}
+			else
+			{
+				return (m_p_arr[m_tail - 1U]);
+			}
+		}
+
+		T&amp; operator[] (uint32_t idx)
+		{
+			return this-&gt;at(idx);
+		}
+
+		T&amp; at(uint32_t index) const
+<span style = "background-color:#dfd">		{
+			if (m_size &lt; 1U)</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");</span>
+			}
+
+<span style = "background-color:#dfd">			if (m_index_max &gt;= m_head + index)</span>
+			{
+<span style = "background-color:#dfd">				return (m_p_arr[m_head + index]);</span>
+			}
+<span style = "background-color:#fdd">			else</span>
+			{
+<span style = "background-color:#dfd">				return (m_p_arr[m_head + index - m_capacity]);</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		////////////////////////////////////////
+		// modifiers
+		////////////////////////////////////////
+		void push_front(const T&amp; data)
+<span style = "background-color:#dfd">		{
+			if (full())</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(DEQUE_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_deque::push_front()");</span>
+			}
+<span style = "background-color:#fdd">			else</span>
+			{
+<span style = "background-color:#dfd">				m_head--;
+				if (-1 == m_head)</span>
+				{
+<span style = "background-color:#dfd">					m_head = m_index_max;</span>
+				}
+
+<span style = "background-color:#dfd">				m_p_arr[m_head] = data;</span>
+
+<span style = "background-color:#dfd">				_increment_size();
+				if (full())</span>
+				{
+<span style = "background-color:#fdd">					m_tail = m_head;</span>
+				}
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void push_back(const T&amp; data)
+<span style = "background-color:#dfd">		{
+			if (full())</span>
+			{
+<span style = "background-color:#fdd">				tr1::sn_exception::handle(DEQUE_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_deque::push_back()");</span>
+			}
+<span style = "background-color:#fdd">			else</span>
+			{
+<span style = "background-color:#dfd">				m_p_arr[m_tail] = data;</span>
+
+<span style = "background-color:#dfd">				_increment_size();
+				m_tail++;
+				if (m_tail &gt; m_index_max)</span>
+				{
+<span style = "background-color:#fdd">					m_tail = 0U;</span>
+				}
+<span style = "background-color:#dfd">				if (full())</span>
+				{
+<span style = "background-color:#fdd">					m_head = m_tail;</span>
+				}
+			}
+<span style = "background-color:#dfd">		}</span>
+
+		void pop_front()
+		{
+			if (m_size &gt; 0U)
+			{
+				if (m_index_max == m_head)
+				{
+					m_head = 0U;
+				}
+				else
+				{
+					m_head++;
+				}
+				m_size--;
+			}
+			else
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_POP_FRONT_NO_ELEM, "sn_deque::pop_front()");
+			}
+		}
+
+		void pop_back()
+		{
+			if (m_size &gt; 0U)
+			{
+				if (m_tail == 0U)
+				{
+					m_tail = m_index_max;
+				}
+				else
+				{
+					m_tail--;
+				}
+				m_size--;
+			}
+			else
+			{
+				tr1::sn_exception::handle(DEQUE_EXCEPTION_POP_BACK_NO_ELEM, "sn_deque::pop_back()");
+			}
+		}
+
+		void clear()
+<span style = "background-color:#dfd">		{
+			m_size = 0;
+		}</span>
+
+
+	protected:
+		void _init()
+<span style = "background-color:#dfd">		{
+			m_head = 0;
+			m_tail = 0;
+			m_index_max = m_capacity - 1U;
+			m_size = 0;
+		}</span>
+
+		void _increment_size()
+<span style = "background-color:#dfd">		{
+			if (m_size &lt; m_capacity)</span>
+			{
+<span style = "background-color:#dfd">				m_size++;</span>
+			}
+<span style = "background-color:#dfd">		}</span>
+
+
+	protected:
+		uint32_t m_tail;
+		uint32_t m_capacity;
+		uint32_t m_head;
+		uint32_t m_size;
+
+		uint32_t m_index_max;
+
+		T* m_p_arr;
+		bool m_is_allocated;
+	};
+}
+
+#endif // __SN_STL_SN_DEQUE_H__</pre>
+	</body>
+</html>

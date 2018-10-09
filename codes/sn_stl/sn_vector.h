@@ -34,11 +34,12 @@ namespace sn_std
 		////////////////////////////////////////
 		// constructors & destructor
 		////////////////////////////////////////
-		sn_vector(uint32_t vec_capacity)
+		sn_vector(uint32_t vec_capacity) :
+			m_capacity(vec_capacity),
+			m_vecsize(vec_capacity + 1U),
+			m_size(0U)
 		{
-			m_p_arr = new T[vec_capacity];
-			m_capacity = vec_capacity;
-			m_size = 0U;
+			m_p_arr = new T[m_vecsize];
 		}
 		~sn_vector()
 		{
@@ -189,9 +190,10 @@ namespace sn_std
 		}
 
 	protected:
-		T* m_p_arr;
-		uint32_t m_size;
 		uint32_t m_capacity;
+		uint32_t m_vecsize;
+		uint32_t m_size;
+		T* m_p_arr;
 	};
 }
 

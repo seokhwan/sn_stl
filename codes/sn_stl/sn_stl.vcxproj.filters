@@ -39,6 +39,9 @@
     <ClInclude Include="sn_deque.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sn_pair.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sates_test_cpp_deploy.cpp">
@@ -62,9 +65,6 @@
     <ClCompile Include="TU01004_SN_VECTOR_SORT.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TU04001_SN_BST_INSERT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TU03001_SN_LIST_PUSH_BACK.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,6 +81,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TU03003_SN_LIST_FULL_EMPTY_CLEAR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU04001_SN_BBST_EMPLACE.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TU04002_SN_BST_ITERATOR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

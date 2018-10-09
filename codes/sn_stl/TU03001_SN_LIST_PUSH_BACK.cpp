@@ -24,22 +24,22 @@ SATES_TEST_RUN(TU03001_SN_LIST_PUSH_BACK)
 	mylist.push_back(53);
 	mylist.push_back(54);
 
-	sn_std::sn_list<int>::iterator it = mylist.begin();
+	sn_std::sn_list<int>::const_iterator it = mylist.cbegin();
 	SATES_EQ(*it, 50);
 	++it;
 	SATES_EQ(*it, 51);
-	++it;
+	it++;
 	SATES_EQ(*it, 52);
 	++it;
 	SATES_EQ(*it, 53);
 	++it;
 	SATES_EQ(*it, 54);
 	++it;
-	SATES_EQ(it, mylist.end());
+	SATES_EQ(it, mylist.cend());
 
 	mylist.pop_back();
 	
-	it = mylist.begin();
+	it = mylist.cbegin();
 	SATES_EQ(*it, 50);
 	++it;
 	SATES_EQ(*it, 51);
@@ -48,7 +48,7 @@ SATES_TEST_RUN(TU03001_SN_LIST_PUSH_BACK)
 	++it;
 	SATES_EQ(*it, 53);
 	++it;
-	SATES_EQ(it, mylist.end());
+	SATES_EQ(it, mylist.cend()); 
 
 	std::list<int> stdlist;
 	stdlist.push_back(50); 

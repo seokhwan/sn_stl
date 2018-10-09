@@ -36,7 +36,7 @@ The worse is if your software runs on different OS (it generally happens when yo
 <strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development. I don't want to face such situation again. I do want to know more exactly.
 
 ### You can know it eactly
-SN_STL is writeen simply. I referred the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by Prof. Mark A. Weiss. 
+SN_STL is writeen simply. I referred the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by the Prof. Mark A. Weiss. 
 
 Most of codes are under few hundreds lines, and no function is more than 100 lines. I know lines of code is not matter. However, the less line the less you need to read and understand.
 

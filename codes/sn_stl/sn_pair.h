@@ -6,15 +6,20 @@
 //------------------------------------------------------------------------------
 
 
-#ifndef __SN_STL_SN_MAP_H__
-#define __SN_STL_SN_MAP_H__
+#ifndef __SN_STL_SN_PAIR_H__
+#define __SN_STL_SN_PAIR_H__
 
 #include <sn_stl/tr1/sn_bbst.h>
 
 namespace sn_std
 {
-	template <typename key_t, typename val_t>
-	using sn_map = sn_std::tr1::sn_bbst<key_t, val_t>;
+	template <typename T1, typename T2>
+	class sn_pair
+	{
+	public:
+		T1 first;
+		T2 second;
+	};
 }
 
-#endif // __SN_STL_SN_MAP_H__
+#endif // __SN_STL_SN_PAIR_H__
