@@ -2,53 +2,107 @@
 |  Date  | Log  | Written by   | Confirmed By  | 
 |---|---|---|---|
 |  6 Oct 2018 | First draft  | Seokhwan Kim |  User  |
-|  8 Oct 2018 | script directory added, sn_exception class added  | Seokhwan Kim |  User  |
+|  8 Oct 2018 | scripts directory added, sn_exception class added  | Seokhwan Kim |  User  |
+|  11 Oct 2018 | CMake support is added  | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.
 
 ## What is the complex realtime software ? 
 The complex realtime software runs on generally following environment : <br>
-1. There is a handy RTOS: Xenomai / RT preempt patched linux, VxWorks, or INtime on Windows
-2. It runs on relatively high performance embedded board: <br>
+1. There is a handy RTOS: Xenomai / RT preempt patched Linux, VxWorks, or INtime on Windows
+2. It runs at relatively high performance embedded chipsets: <br>
 666Mhz ARM Cortex-A9 chip with 512 MB RAM is an example 
 
-The examples of such complex realtiem software are : <br>
+The examples of such complex realtime software are : <br>
 * Robot / Motion control software
-* Any control software that requires lots of math
+* Any control software that requires a lot of math
 
-The characteristics of such complex realtime software is : 
-* <strong>The OS, HW resource is solely for me : </strong>the desktop / mobile software shall consider the other software. For example, if your loop consumes all CPU then the other software are stuck. But in this environment, all OS and hardware resource are for your software only. You can use it as much as.
+The characteristics of those complex realtime software are : 
+* <strong>The OS, HW resource is solely for me : </strong>the desktop / mobile software shall consider the other software. For example, if your loop consumes all CPU, then the other software are stuck. No user and developer do not want this situation. So you should be carefult that your software doesn't consume too much CPU and memory. Many people think an embedded software more optimized and suffer the lack of resource. That is generally true but is not true for some aspects. In this environment, even though your application runs on an operating system, you do not need to consider the other processes. You can (also must) use all resource as much as possible.
 * <strong>Still RT software techniques necessary : </strong> Even though you have lots of memory and whole CPU available, still it is RT software. Therefore, you need to avoid unencouraged habits such as runtime memory allocation / deallocation or the complex multi-threaded routines with lots of lock() / unlock() statements.
 
 ## So why SN_STL? 
 ### You need to know it eactly
-<strong>The second characteristics (RT techniques requried) </strong> requires you to use an algorithm or data structure that <strong>you exactly understand</strong>.
+<strong>The second characteristics (RT techniques necessary) </strong> requires you to use an algorithm or data structure that <strong>you exactly understand</strong>.
 
-I know STL in G++ or Microsoft CL compilers are superior. The code of STL in those popular compilers are written by super developers and intensively tested for numerous exceptional cases. I will not be able to write such high quality code in my life. I do know. But, so the code is highly complex. 
+I know STL implementations in g++ or Microsoft CL compilers are superior. The code of STL in those popular compilers are written by super developers and intensively tested for numerous exceptional cases. Generally, there is very little possibility that we can write such high quality code before the end of our life. I do know. But, the code is highly complext so that generally we do "not know it exactly".
 
-If you are really familiar with the code of STL, you may be able to say that <strong> you know it exactly</strong>. But generally it is not true for general developers like me.
+If resize() happens in std::vector, how much time and memory is really required in terms of O() notation? In your code how many times the resize() happens? As a developer who deals with reliable software we need to answer it. Otherwise, it is better to use some clumsy and bit slow but highly understandable implementations.
 
-If resize() happens in std::vector, how much time and memory is really required in terms of O() notation? 
+The worse is if your software runs on different OS (it generally happens when you develop the complext realtime software), each implementation of STL is also little bit different. Can you really exactly know the difference? How about if the compiler's version is updated? Do you really know that how much the std::vector is different from the previous version?
 
-The worse is if your software runs on different OS (it generally happens when you develop the complext realtime software), each implementation of STL is also different. Can you really exactly know the difference? How about if the compiler's version is updated? You really know the vector is how much different from the previous version?
-
-<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development. I don't want to face such situation again. I do want to know more exactly.
+<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development exoerience. I don't want to face such situation again. I do want to know more exactly.
 
 ### You can know it eactly
-SN_STL is writeen simply. I referred the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by the Prof. Mark A. Weiss. 
-
-Most of codes are under few hundreds lines, and no function is more than 100 lines. I know lines of code is not matter. However, the less line the less you need to read and understand.
+Most of codes are under few hundreds lines, and no function is more than 100 lines. I know lines of code is not matter. However, the less line the less you need to read and understand. And more possibility of knowing it exactly.
 
 ### Design
-The key designs that are different from standard STL is : <br>
+The key designs that are different from standard STL are : <br>
 * <strong>No automatic allocation</strong><br>
-It does not call resize() automatically. If overflow happens, it generates exception (not general exception). This is because you need to know how much slots you are using. So, the constructors of all implementations require the size argument.
+It does not call resize() automatically. If overflow happens, it generates exception (not general exception). Even the complext realtime system, it is generally much more static than desktop software. The "static" in here means that you can know how much memory slots are required at maximum at compile time. So, generally it is better to make an exception to make you know you need more memory than to smoothly call resize() in the inside (then you will never realize it).
 
 * <strong>No undefined behavior</strong><br>
-If you access a location of out of bound in std::vector, it just accesses it and segmentation fault occurs generally. This is a undefined behavior. See [vector's operator[] page](http://www.cplusplus.com/reference/vector/vector/operator[]/)). Generally this approach is not welcomed in the embedded software. If exception occurs the RT environment is crashed so that system itself shows a undefined behavior (It happens in Xenomai env.). Rather than, calling a callback function (pre-defined) or gently reporting it is more welcomed way. Indeeed this is the critical requirement for the safety-critical software.
+If you access a location of out of bound in std::vector, it just accesses it and segmentation fault occurs. This is a undefined behavior. See [vector's operator[] page](http://www.cplusplus.com/reference/vector/vector/operator[]/)). Generally this approach is not welcomed in the embedded software. If an exception occurs, sometimes the RT environment itself is crashed so that the system shows a undefined behavior (It happens in Xenomai env.). Rather than, calling a callback function (pre-defined) or gently reporting it is more welcomed way. Indeeed this is the critical requirement for the safety-critical software.
 
 * <strong>Run as STL does</strong><br>
-The SN_STL is a small set of STL and designed for different purpose. However, it is also designed to run in the same way of the STL. The same results for the same interfaces are greatly help to developers. It must be.
+The SN_STL is a small set of STL and designed for different purpose. However, it is also designed to run in the same way of the STL. The same results for the same interfaces are greatly help to users. It must be.
 
+# How to run
+## Running Script
+All process of building, execution, and generating coverage is wholly automated. You can run all them by script files. 
 
+First, go to ./scripts directory first.
+
+## Windows Environment
+### Prerequisite
+- Visual Studio 2017 Build Tool <br>
+  You can download the build tool from [here](https://visualstudio.microsoft.com/en/downloads/)
+
+### Build & Run
+Please go to ./script/win, then you can see 
+- 100_cmake.bat <br>
+  it generates visual stuio solution using cmake.
+- 200_build.bat <br>
+  it builds the generated solution.
+- 300_run.bat
+  it actually executes the built files
+- 400_coverage.bat
+  optionally you can generate coverage data. The report is generated at ./doc/opencpp
+- 900_clean.bat <br>
+  it just cleans up build and doc directories
+
+As the file names designate, it is straightforward. You can run the scripts in order.
+
+## Ubuntu Environment
+### Prerequisite
+- cmake <br>
+  you can install the cmake by the following command
+  ~~~ bash
+  sudo apt-get install cmake
+  ~~~
+- g++ compiler <br>
+  also you can install it by the following command
+  ~~~ bash
+  sudo apt-get install g++
+  ~~~
+
+Then, go to ./script/ubuntu
+- 000_prep.sh <br>
+  it converts windows formatted files to unix format (i.e., dos2unix). If you have trouble to build the code, you need to run it first. Otherwise, it is not necessary.
+- 100_cmake.sh <br>
+  it generates Makefile using cmake.
+- 200_build.sh <br>
+  it builds the Makefile.
+- 300_run.sh <br>
+  it runs the built file.
+- 900_clean.sh <br>
+  it cleans up build and doc directories
+
+# Acknowledge
+As stated in sn_stl/sn_stl.h file, many of the source code is from the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by Prof. Mark Allen Weiss (Florida International University)
+
+I really appreciate the effort and the great insight by the author.
+
+# License
+sn_stl is [New BSD License (or Modified BSD Licnese)](https://github.com/seokhwan/sn_stl/blob/master/LICENSE)
