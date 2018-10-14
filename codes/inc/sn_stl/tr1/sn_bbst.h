@@ -47,14 +47,14 @@ namespace sn_std
 					p_right = nullptr;
 					p_parent = nullptr;
 					height = 0;
-					std::memset(&elem, 0, sizeof(sn_pair<key_t, val_t>));
+					std::memset(&elem, 0, sizeof(sn_std::sn_pair<key_t, val_t>));
 				}
 
 				node* p_left;
 				node* p_right;
 				node* p_parent;
 				int32_t height;
-				sn_pair<key_t, val_t> elem;
+				sn_std::sn_pair<key_t, val_t> elem;
 			};
 		public:
 			////////////////////////////////////////
@@ -170,12 +170,12 @@ namespace sn_std
 				return const_iterator(m_iter_end);
 			}
 
-			iterator begin() const
+			iterator begin()
 			{
 				return iterator(m_iter_min);
 			}
 
-			iterator end() const
+			iterator end()
 			{
 				return m_iter_end;
 			}

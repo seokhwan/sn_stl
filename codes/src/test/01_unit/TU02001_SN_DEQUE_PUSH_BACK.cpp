@@ -20,6 +20,9 @@ SATES_TEST_RUN(TU02001_SN_DEQUE_PUSH_BACK)
 	std::deque<int> stddeq;
 	sn_std::sn_deque<int> sndeq(256U);
 
+	SATES_EQ(sndeq.empty(), true);
+	SATES_EQ(stddeq.empty(), true);
+
 	stddeq.push_back(1);
 	sndeq.push_back(1);
 

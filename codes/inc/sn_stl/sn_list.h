@@ -61,7 +61,7 @@ namespace sn_std
 
 			T& operator*() const
 			{
-				return const_cast<T&>(p_cur->element);
+				return (*(const_cast<T*>(&(p_cur->element))));
 			}
 
 			iterator operator++()
@@ -85,7 +85,7 @@ namespace sn_std
 
 			iterator operator--(int)
 			{
-				const_iterator old = *this;
+				iterator old = *this;
 				--(*this);
 				return old;
 			}
@@ -117,24 +117,30 @@ namespace sn_std
 				return iterator::operator*();
 			}
 			
-			const_iterator operator--()
-			{
-				return const_iterator(iterator::operator--());
-			}
-
-			const_iterator operator--(int)
-			{
-				return const_iterator(iterator::operator--(0));
-			}
-
 			const_iterator operator++()
 			{
-				return const_iterator(iterator::operator++());
+				this->p_cur = this->p_cur->p_next;
+				return (*this);
 			}
 
 			const_iterator operator++(int)
 			{
-				return const_iterator(iterator::operator++(0));
+				const_iterator old = *this;
+				++(*this);
+				return old;
+			}
+
+			const_iterator operator--()
+			{
+				this->p_cur = this->p_cur->p_prev;
+				return (*this);
+			}
+
+			const_iterator operator--(int)
+			{
+				const_iterator old = *this;
+				--(*this);
+				return old;
 			}
 
 		protected:
@@ -220,7 +226,7 @@ namespace sn_std
 		////////////////////////////////////////
 		// element access
 		////////////////////////////////////////
-		const T& front() const
+		T& front()
 		{
 			if (0U == m_size)
 			{
@@ -228,6 +234,16 @@ namespace sn_std
 			}
 
 			return m_p_head->element;
+		}
+
+		T& back()
+		{
+			return const_cast<sn_list<T*>*>(this)->back();
+		}
+
+		const T& front() const
+		{
+			return const_cast<sn_list<T*>*>(this)->front();
 		}
 
 		const T& back() const

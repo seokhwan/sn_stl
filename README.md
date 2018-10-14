@@ -4,6 +4,7 @@
 |  6 Oct 2018 | First draft  | Seokhwan Kim |  User  |
 |  8 Oct 2018 | scripts directory added, sn_exception class added  | Seokhwan Kim |  User  |
 |  11 Oct 2018 | CMake support is added  | Seokhwan Kim |  User  |
+|  14 Oct 2018 | deque based map added  | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.

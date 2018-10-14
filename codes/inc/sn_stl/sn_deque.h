@@ -26,6 +26,117 @@ namespace sn_std
 		DEQUE_EXCEPTION_END
 	};
 
+	template <typename T> class sn_deque;
+	template <typename T>
+	class deq_iterator
+	{
+	public:
+		deq_iterator(uint32_t idx, sn_deque<T>* p_deq) : m_idx(idx), m_p_deq(p_deq) {}
+		deq_iterator(const deq_iterator& rhs) : m_idx(rhs.m_idx), m_p_deq(rhs.m_p_deq) {}
+
+		T& operator*()
+		{
+			return (*m_p_deq)[m_idx];
+		}
+
+		T* operator->()
+		{
+			return &((*m_p_deq)[m_idx]);
+		}
+
+		deq_iterator operator++()
+		{
+			++m_idx;
+			return (*this);
+		}
+
+		deq_iterator operator++(int)
+		{
+			deq_iterator old = *this;
+			++(*this);
+			return old;
+		}
+
+		deq_iterator operator--()
+		{
+			--m_idx;
+			return (*this);
+		}
+
+		deq_iterator operator--(int)
+		{
+			deq_iterator old = *this;
+			--(*this);
+			return old;
+		}
+
+		bool operator==(const deq_iterator& rhs)
+		{
+			return (rhs.m_p_deq == m_p_deq) && (rhs.m_idx == m_idx);
+		}
+
+		bool operator !=(const deq_iterator& rhs)
+		{
+			return !(this->operator==(rhs));
+		}
+
+	protected:
+		sn_deque<T>* m_p_deq;
+		uint32_t m_idx;
+	};
+
+	template <typename T>
+	class const_deq_iterator : public deq_iterator<T>
+	{
+		const_deq_iterator(uint32_t idx, sn_deque<T>* p_deq) : deq_iterator<T>(idx, p_deq) {}
+
+		const T& operator*() const
+		{
+			return (*deq_iterator<T>::m_p_deq)[deq_iterator<T>::m_idx];
+		}
+
+		const T* operator->() const
+		{
+			return &((*deq_iterator<T>::m_p_deq)[deq_iterator<T>::m_idx]);
+		}
+
+		const_deq_iterator operator++() const
+		{
+			++deq_iterator<T>::m_idx;
+			return (*this);
+		}
+
+		const_deq_iterator operator++(int) const
+		{
+			const_deq_iterator old = *this;
+			++(*this);
+			return old;
+		}
+
+		const_deq_iterator operator--() const
+		{
+			--deq_iterator<T>::m_idx;
+			return (*this);
+		}
+
+		const_deq_iterator operator--(int)
+		{
+			const_deq_iterator old = *this;
+			--(*this);
+			return old;
+		}
+
+		bool operator==(const const_deq_iterator& rhs)
+		{
+			return (rhs.m_p_deq == deq_iterator<T>::m_p_deq) && (rhs.m_idx == deq_iterator<T>::m_idx);
+		}
+
+		bool operator !=(const const_deq_iterator& rhs)
+		{
+			return !(this->operator==(rhs));
+		}
+	};
+
 	template <typename T>
 	class sn_deque
 	{
@@ -33,8 +144,9 @@ namespace sn_std
 		////////////////////////////////////////
 		// iterator def
 		////////////////////////////////////////
-		typedef T* iterator;
-		typedef const T& const_iterator;
+		
+		typedef deq_iterator<T> iterator;
+		typedef const_deq_iterator<T> const_iterator;
 
 		////////////////////////////////////////
 		// constructors & destructor
@@ -59,12 +171,12 @@ namespace sn_std
 		////////////////////////////////////////
 		iterator begin()
 		{
-			return &(m_p_arr[m_head]);
+			return iterator(0U, this);
 		}
 
 		iterator end()
 		{
-			return &(m_p_arr[m_tail]);
+			return iterator(m_size, this);
 		}
 
 		const_iterator cbegin() const
@@ -90,12 +202,12 @@ namespace sn_std
 			return m_capacity;
 		}
 
-		bool empty()
+		bool empty() const
 		{
 			return (0U == m_size);
 		}
 
-		bool full()
+		bool full() const
 		{
 			return (m_capacity == m_size);
 		}
@@ -112,7 +224,7 @@ namespace sn_std
 			return (m_p_arr[m_head]);
 		}
 
-		T& back() const
+		T& back()
 		{
 			if (m_size < 1U)
 			{
@@ -131,24 +243,44 @@ namespace sn_std
 
 		T& operator[] (uint32_t idx)
 		{
-			return this->at(idx);
-		}
-
-		T& at(uint32_t index) const
-		{
 			if (m_size < 1U)
 			{
 				tr1::sn_exception::handle(DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");
 			}
 
-			if (m_index_max >= m_head + index)
+			if (m_index_max >= m_head + idx)
 			{
-				return (m_p_arr[m_head + index]);
+				return (m_p_arr[m_head + idx]);
 			}
 			else
 			{
-				return (m_p_arr[m_head + index - m_capacity]);
+				return (m_p_arr[m_head + idx - m_capacity]);
 			}
+		}
+
+		T& at(uint32_t idx)
+		{
+			return (*this)[idx];
+		}
+
+		const T& front() const
+		{
+			return const_cast<sn_deque<T>*>(this)->front();
+		}
+
+		const T& back() const
+		{
+			return const_cast<sn_deque<T>*>(this)->back();
+		}
+
+		const T& operator[] (uint32_t idx) const
+		{
+			return (*(const_cast<sn_deque<T>*>(this)))[idx];
+		}
+
+		const T& at(uint32_t idx) const
+		{
+			return (*(const_cast<sn_deque<T>*>(this)))[idx];
 		}
 
 		////////////////////////////////////////
@@ -189,7 +321,7 @@ namespace sn_std
 				m_p_arr[m_tail] = data;
 
 				_increment_size();
-				m_tail++;
+				++m_tail;
 				if (m_tail > m_index_max)
 				{
 					m_tail = 0U;
@@ -213,7 +345,7 @@ namespace sn_std
 				{
 					m_head++;
 				}
-				m_size--;
+				--m_size;
 			}
 			else
 			{

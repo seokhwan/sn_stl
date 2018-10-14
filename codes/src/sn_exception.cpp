@@ -7,7 +7,7 @@ namespace sn_std
 {
 	namespace tr1
 	{
-		static sn_std::sn_map<int32_t, sn_exception::handler_t> handler_map(512);
+		//static sn_std::sn_map<int32_t, sn_exception::handler_t> handler_map(512);
 
 		void sn_exception::handle(int32_t exception_code, const char* p_format, ...)
 		{

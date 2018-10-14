@@ -29,7 +29,7 @@ namespace sn_std
 		// iterator def
 		////////////////////////////////////////
 		typedef T* iterator;
-		typedef const T& const_iterator;
+		typedef const T* const_iterator;
 
 		////////////////////////////////////////
 		// constructors & destructor
@@ -116,12 +116,12 @@ namespace sn_std
 		////////////////////////////////////////
 		// element access
 		////////////////////////////////////////
-		const T& front() const
+		T& front()
 		{
 			return m_p_arr[0U];
 		}
 
-		const T& back() const
+		T& back()
 		{
 			return m_p_arr[m_size - 1U];
 		}
@@ -142,6 +142,26 @@ namespace sn_std
 				tr1::sn_exception::handle(VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE, "sn_vector::at()");
 			}
 			return m_p_arr[0U];
+		}
+
+		const T& front() const
+		{
+			return const_cast<sn_vector<T*>*>(this)->front();
+		}
+
+		const T& back() const
+		{
+			return const_cast<sn_vector<T*>*>(this)->back();
+		}
+
+		const T& operator[] (uint32_t idx) const
+		{
+			return const_cast<sn_vector<T*>*>(this)->at(idx);
+		}
+
+		const T& at(uint32_t idx) const
+		{
+			return const_cast<sn_vector<T*>*>(this)->at(idx);;
 		}
 
 		////////////////////////////////////////
