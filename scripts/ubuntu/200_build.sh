@@ -1,5 +1,8 @@
 #!/bin/bash
 set -x
 
-cd ../../build
+cd ../../build/release
+make
+
+cd ../debug
 make
