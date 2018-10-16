@@ -5,6 +5,7 @@
 |  8 Oct 2018 | scripts directory added, sn_exception class added  | Seokhwan Kim |  User  |
 |  11 Oct 2018 | CMake support is added  | Seokhwan Kim |  User  |
 |  14 Oct 2018 | deque based map added  | Seokhwan Kim |  User  |
+|  16 Oct 2018 | vector based map added  | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.
@@ -59,7 +60,19 @@ First, go to ./scripts directory first.
 ### Prerequisite
 - Visual Studio 2017 Build Tool <br>
   You can download the build tool from [here](https://visualstudio.microsoft.com/en/downloads/)
-
+  
+- Windows Dependency <br>
+  If you have cmake and opencppcoverage tools on your local machine and they are under the path, then it is not necessary. Otherwise, you can downlaod windows dependencies from the [link](https://github.com/seokhwan/deps/blob/master/sn_stl/deps_win.7z). The location of the deps_win directory should be as follows.
+  ~~~
+    C:\SN_STL
+    ├─codes
+    ├─deps_win
+    ├─cripts
+    ├─.gitignore
+    ├─LICENSE
+    └─README.md
+~~~
+  
 ### Build & Run
 Please go to ./script/win, then you can see 
 - 100_cmake.bat <br>
@@ -99,6 +112,45 @@ Then, go to ./script/ubuntu
   it runs the built file.
 - 900_clean.sh <br>
   it cleans up build and doc directories
+
+# Performance Test
+## std::map, sn_bbst, sn_map_deq, sn_map_vec
+I use std::map for following scenarios
+* An efficient way to search() is necessary
+* The key values are not consecutive
+
+The general methods I use is emplace() and find() I compare the performance of two functions with respect to given item size. Please see the test code [TF0001_STDMAP_PERF](https://github.com/seokhwan/sn_stl/blob/master/codes/src/test/03_perf/TF0001_STDMAP_PERF.cpp)
+
+## @Windows 10, Visual Studio 2017, Core i7
+### emplace
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+|  100 | 0.0244  | 0.0797 |  0.0328  | 1.478 |
+|  1000 | 0.2384  |0.1979 | 0.2080  | 1.7054 |
+|  10000 | 2.5319 |1.3202 | 2.0958  | 3.0483 |
+|  100000 | 26.2449 | 12.5133 | 20.7118  | 16.3718 |
+
+
+
+### find
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+|  100 | 0.0154  | 0.0113 |   0.0139 | 0.0126 |
+|  1000 | 0.1430  | 0.1285 |   0.1481 | 0.1318 |
+|  10000 | 1.5217  |  1.2347 |  1.5246 |1.3925 |
+|  100000 | 16.0137  |  12.2363  | 15.0435 | 13.6677 |
+
+
+## @Ubuntu 18.04, g++ 7.3, Core i7
+### emplace
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+
+
+### find
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+
 
 # Acknowledge
 As stated in sn_stl/sn_stl.h file, many of the source code is from the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by Prof. Mark Allen Weiss (Florida International University)

@@ -8,17 +8,17 @@
 
 
 #include <sates/sates_test_cpp_deploy.h>
-#include <sn_stl/sn_map.h>
+#include <sn_stl/tr1/sn_map_vec.h>
 #include <iostream>
 #include <map>
 
-SATES_TEST_INIT(TU05001_SN_MAP_EMPLACE)
+SATES_TEST_INIT(TU06001_SN_MAP_VEC_EMPLACE)
 {
 }
 
-SATES_TEST_RUN(TU05001_SN_MAP_EMPLACE)
+SATES_TEST_RUN(TU06001_SN_MAP_VEC_EMPLACE)
 {
-	sn_std::sn_map<int, int> mine(256U);
+	sn_std::tr1::sn_map_vec<int, int> mine(256U);
 	std::map<int, int> stdmap;
 
 	for (int i = 100; i > 0; i = i - 10)
@@ -68,7 +68,7 @@ SATES_TEST_RUN(TU05001_SN_MAP_EMPLACE)
 	SATES_EQ(stdmap.size(), mine.size());
 }
 
-SATES_TEST_TERMINATE(TU05001_SN_MAP_EMPLACE)
+SATES_TEST_TERMINATE(TU06001_SN_MAP_VEC_EMPLACE)
 {
 
 }

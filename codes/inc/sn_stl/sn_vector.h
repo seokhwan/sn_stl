@@ -128,11 +128,6 @@ namespace sn_std
 		
 		T& operator[] (uint32_t idx)
 		{
-			return this->at(idx);
-		}
-
-		T& at(uint32_t idx)
-		{
 			if (idx < m_size)
 			{
 				return m_p_arr[idx];
@@ -142,6 +137,11 @@ namespace sn_std
 				tr1::sn_exception::handle(VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE, "sn_vector::at()");
 			}
 			return m_p_arr[0U];
+		}
+
+		T& at(uint32_t idx)
+		{
+			return (*this)[idx];
 		}
 
 		const T& front() const

@@ -8,19 +8,19 @@
 
 
 #include <sates/sates_test_cpp_deploy.h>
-#include <sn_stl/sn_map.h>
+#include <sn_stl/tr1/sn_map_deq.h>
 
 #include <map>
 #include <iostream>
 #include <vector>
 
-SATES_TEST_INIT(TU05002_SN_MAP_ITERATOR)
+SATES_TEST_INIT(TU05002_SN_MAP_DEQ_ITERATOR)
 {
 }
 
-SATES_TEST_RUN(TU05002_SN_MAP_ITERATOR)
+SATES_TEST_RUN(TU05002_SN_MAP_DEQ_ITERATOR)
 {
-	sn_std::sn_map<int, int> mine(256U);
+	sn_std::tr1::sn_map_deq<int, int> mine(256U);
 	std::map<int, int> stdmap;
 
 	for (int i = 100; i > 0; i = i - 10)
@@ -45,7 +45,7 @@ SATES_TEST_RUN(TU05002_SN_MAP_ITERATOR)
 	std::vector<int> minevec;
 	std::vector<int> stdvec;
 
-	for (sn_std::sn_map<int, int>::iterator iter = mine.begin();
+	for (sn_std::tr1::sn_map_deq<int, int>::iterator iter = mine.begin();
 		iter != mine.end();
 		++iter)
 	{
@@ -101,7 +101,7 @@ SATES_TEST_RUN(TU05002_SN_MAP_ITERATOR)
 	}
 }
 
-SATES_TEST_TERMINATE(TU05002_SN_MAP_ITERATOR)
+SATES_TEST_TERMINATE(TU05002_SN_MAP_DEQ_ITERATOR)
 {
 
 }
