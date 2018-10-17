@@ -232,6 +232,7 @@ namespace sn_std
 			void clear()
 			{
 				_clear(m_p_root);
+				m_p_root = nullptr;
 			}
 
 		protected:

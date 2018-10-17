@@ -93,15 +93,16 @@ namespace sn_std
 
 			iterator find(const key_t& keyval)
 			{
-				uint32_t idx = _find_idx(keyval, 0U, m_p_vec->size());
-				if (keyval == (*m_p_vec)[idx].first)
+				uint32_t idx = _find_idx(keyval, 0U, m_p_vec->size() - 1U);
+
+				if (idx < m_p_vec->size())
 				{
-					return &((*m_p_vec)[idx]);
+					if (keyval == (*m_p_vec)[idx].first)
+					{
+						return &((*m_p_vec)[idx]);
+					}
 				}
-				else
-				{
-					return m_p_vec->end();
-				}
+				return m_p_vec->end();
 			}
 
 			////////////////////////////////////////

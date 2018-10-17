@@ -21,9 +21,10 @@
 #include <iostream>
 #include <ctime>
 
-static const uint32_t MAP_SIZE = 1000000U;
-static const int ITEM_SIZE = 100;
-static const int TEST_COUNT = 1000;
+static const int ITEM_SIZE = 10000;
+
+static const uint32_t MAP_SIZE = ITEM_SIZE + 10;
+static const int TEST_COUNT = 10;
 
 static std::vector<std::vector<int> > varvec;
 
@@ -33,20 +34,21 @@ static void emplace_test(T& testitem, const std::vector<std::vector<int> >& vec,
 	double accum = 0.0;
 	for (int k = 0; k < TEST_COUNT; k++)
 	{
+		testitem.clear();
 		auto start = std::chrono::system_clock::now();
 
 		for (int item : vec[k])
 		{
 			testitem.emplace(item, item);
 		}
-
+		 
 		auto end = std::chrono::system_clock::now();
 		std::chrono::duration<double> elapsed = end - start;
 
 		accum += elapsed.count();
 	}
 
-	std::cout << p_mapname << "::emplace : " << accum << "ms" << std::endl;
+	std::cout << p_mapname << "::emplace : " << accum * (double)1000 * 1000 / (double)TEST_COUNT << "us" << std::endl;
 }
 
 template<typename T>
@@ -66,7 +68,7 @@ static void find_test(T& testitem, const std::vector<std::vector<int> >& vec, co
 		std::chrono::duration<double> elapsed = end - start;
 		accum += elapsed.count();
 	}
-	std::cout << p_mapname << "::find : " << accum << "ms" << std::endl;
+	std::cout << p_mapname << "::find : " << accum * (double)1000 * 1000 / (double)TEST_COUNT << "us" << std::endl;
 }
 
 SATES_TEST_INIT(TF0001_STDMAP_PERF)
@@ -103,13 +105,9 @@ SATES_TEST_RUN(TF0001_STDMAP_PERF)
 	std::cout << std::endl << std::endl;
 
 	find_test(std_map, varvec, "std_map");
-	find_test(bbst, varvec, "sn_bbst");
 	find_test(vec_map, varvec, "sn_map_vec");
+	find_test(bbst, varvec, "sn_bbst");
 	find_test(deq_map, varvec, "sn_map_deq");
-	
-	
-	
-
 }
 
 SATES_TEST_TERMINATE(TF0001_STDMAP_PERF)

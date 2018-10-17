@@ -6,6 +6,7 @@
 |  11 Oct 2018 | CMake support is added  | Seokhwan Kim |  User  |
 |  14 Oct 2018 | deque based map added  | Seokhwan Kim |  User  |
 |  16 Oct 2018 | vector based map added  | Seokhwan Kim |  User  |
+|  17 Oct 2018 | performance test result added   | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.
@@ -113,43 +114,63 @@ Then, go to ./script/ubuntu
 - 900_clean.sh <br>
   it cleans up build and doc directories
 
-# Performance Test
-## std::map, sn_bbst, sn_map_deq, sn_map_vec
+# Performance Test (17 Oct 2018)
+## std::map, sn_bbst, sn_map_deq, sn_map_vec 
 I use std::map for following scenarios
 * An efficient way to search() is necessary
 * The key values are not consecutive
 
 The general methods I use is emplace() and find() I compare the performance of two functions with respect to given item size. Please see the test code [TF0001_STDMAP_PERF](https://github.com/seokhwan/sn_stl/blob/master/codes/src/test/03_perf/TF0001_STDMAP_PERF.cpp)
 
-## @Windows 10, Visual Studio 2017, Core i7
-### emplace
+## @Windows 10
+Test Environment : 
+* Microsoft Windows [Version 10.0.17134.345]
+* Microsoft (R) C/C++ Optimizing Compiler Version 19.15.26730 for x86
+* Intel(R) Core(TM) i7-7820 HQ
+* 32GB RAM
+  
+### emplace (time unit : ms)
 |ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
 |---|---|---|---|---|
-|  100 | 0.0244  | 0.0797 |  0.0328  | 1.478 |
-|  1000 | 0.2384  |0.1979 | 0.2080  | 1.7054 |
-|  10000 | 2.5319 |1.3202 | 2.0958  | 3.0483 |
-|  100000 | 26.2449 | 12.5133 | 20.7118  | 16.3718 |
+|  100 | 0.0112  | 0.0069 | 0.0139 | 0.0128 |
+|  1000 | 0.1167  | 0.1155 | 0.1806  | 0.7500 |
+|  10000 | 1.4055  |  3.8970 |  2.6033 |  67.8041 |
+|  100000 | 20.9784 | 58.0564 | 26.0035  | 4377.99 |
 
 
 
-### find
+### find (time unit : ms)
 |ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
 |---|---|---|---|---|
-|  100 | 0.0154  | 0.0113 |   0.0139 | 0.0126 |
-|  1000 | 0.1430  | 0.1285 |   0.1481 | 0.1318 |
-|  10000 | 1.5217  |  1.2347 |  1.5246 |1.3925 |
-|  100000 | 16.0137  |  12.2363  | 15.0435 | 13.6677 |
+|  100 |  0.0042  | 0.0049 |  0.0039 | 0.0041 |
+|  1000 | 0.0539  | 0.0668 |   0.0568 | 0.0451 |
+|  10000 | 1.0730  |   0.9339 |  1.09675 |  0.70040  |
+|  100000 | 13.7743  |  9.3541  | 17.3691 | 9.3837 |
 
 
-## @Ubuntu 18.04, g++ 7.3, Core i7
-### emplace
+## @Ubuntu 18.04
+* Linux 4.15.0-36-generic #39-Ubuntu
+* g++ Ubuntu 7.3.0-27ubuntu1~18.04
+* Intel(R) Core(TM) i7-7820 HQ
+* 32GB RAM
+  
+### emplace (time unit : ms)
 |ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
 |---|---|---|---|---|
+|100 | 0.00539 |   0.0043 |  0.0117 | 0.0066 |
+|1000 | 0.0730 |   0.0730 |  0.1569 |  0.3678 |
+| 10000 |  1.2360 | 2.8669 | 2.8016 | 33.4804 |
+| 100000 | 20.2375 | 361.7400 | 44.3311 | 4401.5100 |
 
 
-### find
+### find (time unit : ms)
 |ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
 |---|---|---|---|---|
+| 100 |  0.0024 | 0.0036 |  0.0034 |  0.0024 |
+| 1000 | 0.0429 |  0.0528 | 0.0617 | 0.0445 |
+| 10000 | 0.9791 |  0.7636 |  1.2157 |  0.34650 |
+| 100000 | 17.9325 | 10.3999 | 20.3142 | 6.8370 |
+
 
 
 # Acknowledge
