@@ -191,8 +191,6 @@ Test Environment :
 | 100000 | 10.4149 | 11.6132 | 19.7357 | 8.98817 |
 
 
-
-
 # Acknowledge
 As stated in sn_stl/sn_stl.h file, many of the source code is from the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by Prof. Mark Allen Weiss (Florida International University)
 
