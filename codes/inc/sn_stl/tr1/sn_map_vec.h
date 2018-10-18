@@ -175,42 +175,25 @@ namespace sn_std
 		public:
 			uint32_t _find_idx(const key_t& key, uint32_t start_idx, uint32_t end_idx)
 			{
-				if ((end_idx - start_idx) <= 1U)
+				if ((end_idx - start_idx) <= 10U)
 				{
-					if (key == (*m_p_vec)[start_idx].first)
+					for (uint32_t i = start_idx; i <= end_idx; ++i)
 					{
-						return start_idx;
+						if (key <= (*m_p_vec)[i].first)
+						{
+							return i;
+						}
 					}
-					else if (key < (*m_p_vec)[start_idx].first)
-					{
-						return start_idx;
-					}
-					else if (key == (*m_p_vec)[end_idx].first)
-					{
-						return end_idx;
-					}
-					else if (key < (*m_p_vec)[end_idx].first)
-					{
-						return end_idx;
-					}
-					else
-					{
-						return end_idx + 1U;
-					}
-				}
-
-				uint32_t mid_idx = (start_idx + end_idx) / 2U;
-				if ((*m_p_vec)[mid_idx].first > key)
-				{
-					return _find_idx(key, start_idx, mid_idx);
-				}
-				else if ((*m_p_vec)[mid_idx].first < key)
-				{
-					return _find_idx(key, mid_idx, end_idx);
+					return end_idx + 1U;
 				}
 				else
 				{
-					return mid_idx;
+					uint32_t mid_idx = (start_idx + end_idx) / 2U;
+					if (key < (*m_p_vec)[mid_idx].first)
+					{
+						return _find_idx(key, start_idx, mid_idx);
+					}
+					return _find_idx(key, mid_idx, end_idx);
 				}
 			}
 		protected:

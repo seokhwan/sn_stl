@@ -197,19 +197,12 @@ namespace sn_std
 				}
 
 				uint32_t mid_idx = (start_idx + end_idx) / 2U;
-				if ((*m_p_deq)[mid_idx].first > key)
+				if (key < (*m_p_deq)[mid_idx].first)
 				{
 					return _find_idx(key, start_idx, mid_idx);
 				}
-				else if ((*m_p_deq)[mid_idx].first < key)
-				{
-					return _find_idx(key, mid_idx, end_idx);
-				}
-				else
-				{
-					return mid_idx;
-				}
-			}
+				return _find_idx(key, mid_idx, end_idx);
+			} 
 		protected:
 			deq_pair_t* m_p_deq;
 		};

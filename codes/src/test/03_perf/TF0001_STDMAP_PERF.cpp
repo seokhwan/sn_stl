@@ -48,7 +48,7 @@ static void emplace_test(T& testitem, const std::vector<std::vector<int> >& vec,
 		accum += elapsed.count();
 	}
 
-	std::cout << p_mapname << "::emplace : " << accum * (double)1000 * 1000 / (double)TEST_COUNT << "us" << std::endl;
+	std::cout << p_mapname << "::emplace : " << accum * (double)1000 / (double)TEST_COUNT << "ms" << std::endl;
 }
 
 template<typename T>
@@ -68,7 +68,7 @@ static void find_test(T& testitem, const std::vector<std::vector<int> >& vec, co
 		std::chrono::duration<double> elapsed = end - start;
 		accum += elapsed.count();
 	}
-	std::cout << p_mapname << "::find : " << accum * (double)1000 * 1000 / (double)TEST_COUNT << "us" << std::endl;
+	std::cout << p_mapname << "::find : " << accum * (double)1000 / (double)TEST_COUNT << "ms" << std::endl;
 }
 
 SATES_TEST_INIT(TF0001_STDMAP_PERF)
@@ -77,7 +77,7 @@ SATES_TEST_INIT(TF0001_STDMAP_PERF)
 
 SATES_TEST_RUN(TF0001_STDMAP_PERF)
 {
-	std::srand(std::time(0U));
+	std::srand(static_cast<unsigned int>(std::time(0U)));
 
 	sn_std::tr1::sn_map_deq<int, int> deq_map(MAP_SIZE);
 	sn_std::tr1::sn_bbst<int, int> bbst(MAP_SIZE);

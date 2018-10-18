@@ -72,7 +72,7 @@ First, go to ./scripts directory first.
     ├─.gitignore
     ├─LICENSE
     └─README.md
-~~~
+  ~~~
   
 ### Build & Run
 Please go to ./script/win, then you can see 
@@ -124,8 +124,8 @@ The general methods I use is emplace() and find() I compare the performance of t
 
 ## @Windows 10
 Test Environment : 
-* Microsoft Windows [Version 10.0.17134.345]
 * Microsoft (R) C/C++ Optimizing Compiler Version 19.15.26730 for x86
+* Microsoft Windows [Version 10.0.17134.345]
 * Intel(R) Core(TM) i7-7820 HQ
 * 32GB RAM
   
@@ -148,9 +148,9 @@ Test Environment :
 |  100000 | 13.7743  |  9.3541  | 17.3691 | 9.3837 |
 
 
-## @Ubuntu 18.04
-* Linux 4.15.0-36-generic #39-Ubuntu
+## @Ubuntu 18.04 (GCC)
 * g++ Ubuntu 7.3.0-27ubuntu1~18.04
+* Linux 4.15.0-36-generic #39-Ubuntu
 * Intel(R) Core(TM) i7-7820 HQ
 * 32GB RAM
   
@@ -170,6 +170,26 @@ Test Environment :
 | 1000 | 0.0429 |  0.0528 | 0.0617 | 0.0445 |
 | 10000 | 0.9791 |  0.7636 |  1.2157 |  0.34650 |
 | 100000 | 17.9325 | 10.3999 | 20.3142 | 6.8370 |
+
+## @Ubuntu 18.04 (Clang)
+* clang version 6.0.0-1ubuntu2 
+### emplace (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100 |  0.0051 |  0.0050 |  0.0119 |  0.0083 |
+| 1000 | 0.0650 | 0.0853 |  0.1813 | 0.4791 |
+| 10000 | 1.0827 | 3.09479 | 2.9315 | 56.9163 |
+| 100000 | 18.1623 | 365.9190 | 47.7129 | 5588.2200 |
+
+
+### find (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100 | 0.0013 | 0.0038 | 0.0034 |  0.0035 | 
+| 1000 | 0.0249  | 0.0584 | 0.0618 | 0.0560 | 
+| 10000 | 0.51865 | 0.8246 | 1.1468 | 0.6326 | 
+| 100000 | 10.4149 | 11.6132 | 19.7357 | 8.98817 |
+
 
 
 
