@@ -5,11 +5,29 @@
 // <sn_stl/sn_stl.h>
 //------------------------------------------------------------------------------
 
+
 #include <sates/sates_test_cpp_deploy.h>
 #include <sn_stl/sn_vector.h>
 
 #include <vector>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU01003_SN_VECTOR_RESERVE
+*  @{
+*/
+
+/**
+@see TU01003_SN_VECTOR_RESERVE.cpp
+*/
 SATES_TEST_INIT(TU01003_SN_VECTOR_RESERVE)
 {
 
@@ -64,3 +82,8 @@ SATES_TEST_TERMINATE(TU01003_SN_VECTOR_RESERVE)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

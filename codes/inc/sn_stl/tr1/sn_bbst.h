@@ -15,11 +15,28 @@
 #include <cstring>
 #include <algorithm>
 
+#ifdef max
+#undef max
+#endif
+
+#ifdef min
+#undef min
+#endif
 
 namespace sn_std
 {
 	namespace tr1
 	{
+        /** \addtogroup CODE
+        *  @{
+        */
+        /** \addtogroup sn_std
+        *  @{
+        */
+        /** \addtogroup tr1
+        *  @{
+        */
+
 		enum BBST_EXCEPTION
 		{
 			BBST_EXCEPTION_BEGIN = 4000,
@@ -576,6 +593,9 @@ namespace sn_std
 			iterator m_iter_min;
 			sn_vector<node*>* m_p_vec;
 		};
+        /** @} */
+        /** @} */
+        /** @} */
 	}
 }
 

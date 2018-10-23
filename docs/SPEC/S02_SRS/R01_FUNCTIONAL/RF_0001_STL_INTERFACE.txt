@@ -1,0 +1,24 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  19 Oct 2018 | Draft Added  | Seokhwan Kim  |  User  |
+
+
+@title
+Compliance to STL interface
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+There is only one functional requirement.
+- The SN_STL works in the same way of STL
+
+More specifically,
+- The arguments type, the number of arguments, and the true meaning of each argument shall be same to STL.
+- The return type and the true meaning of return value shall be same to STL.
+
+@child_spec
+

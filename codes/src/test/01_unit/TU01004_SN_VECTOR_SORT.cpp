@@ -13,6 +13,23 @@
 
 #include <algorithm>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU01004_SN_VECTOR_SORT
+*  @{
+*/
+
+/**
+@see TU01004_SN_VECTOR_SORT.cpp
+*/
 SATES_TEST_INIT(TU01004_SN_VECTOR_SORT)
 {
 
@@ -44,3 +61,8 @@ SATES_TEST_TERMINATE(TU01004_SN_VECTOR_SORT)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

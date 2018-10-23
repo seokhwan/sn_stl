@@ -14,6 +14,23 @@
 #include <iostream>
 #include <vector>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU04002_SN_BST_ITERATOR
+*  @{
+*/
+
+/**
+@see TU04002_SN_BST_ITERATOR.cpp
+*/
 SATES_TEST_INIT(TU04002_SN_BST_ITERATOR)
 {
 }
@@ -105,3 +122,8 @@ SATES_TEST_TERMINATE(TU04002_SN_BST_ITERATOR)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

@@ -12,6 +12,13 @@
 
 namespace sn_std
 {
+    /** \addtogroup CODE
+    *  @{
+    */
+    /** \addtogroup sn_std
+    *  @{
+    */
+    
 	enum VECTOR_EXCEPTION
 	{
 		VECTOR_EXCEPTION_BEGIN = 1000,
@@ -215,6 +222,9 @@ namespace sn_std
 		uint32_t m_size;
 		T* m_p_arr;
 	};
+
+    /** @} */
+    /** @} */
 }
 
 #endif // __SN_STL_SN_VECTOR_H__

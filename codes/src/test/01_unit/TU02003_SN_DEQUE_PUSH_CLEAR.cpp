@@ -10,6 +10,23 @@
 #include <sn_stl/sn_deque.h>
 #include <deque>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU02003_SN_DEQUE_PUSH_CLEAR
+*  @{
+*/
+
+/**
+@see TU02003_SN_DEQUE_PUSH_CLEAR.cpp
+*/
 SATES_TEST_INIT(TU02003_SN_DEQUE_PUSH_CLEAR)
 {
 
@@ -57,3 +74,8 @@ SATES_TEST_TERMINATE(TU02003_SN_DEQUE_PUSH_CLEAR)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

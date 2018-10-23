@@ -14,6 +14,12 @@
 
 namespace sn_std
 {
+    /** \addtogroup CODE
+    *  @{
+    */
+    /** \addtogroup sn_std
+    *  @{
+    */
 	enum LIST_EXCEPTION
 	{
 		LIST_EXCEPTION_BEGIN = 3000,
@@ -389,6 +395,9 @@ namespace sn_std
 		
 		sn_vector<node*>* m_p_vec;
 	};
+
+    /** @} */
+    /** @} */
 }
 
 #endif // __SN_STL_SN_LIST_H__

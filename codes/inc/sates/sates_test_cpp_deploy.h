@@ -35,6 +35,10 @@
 #ifndef __SATES_TEST_CPP_DEPLOY_H__
 #define __SATES_TEST_CPP_DEPLOY_H__
 
+#ifdef SATES_FRAMEWORK_INCLUDED
+    #include <sates/test_macro.h>
+#endif 
+
 #ifdef __cplusplus
 extern "C" {
 #endif

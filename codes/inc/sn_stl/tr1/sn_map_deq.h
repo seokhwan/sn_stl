@@ -17,6 +17,16 @@ namespace sn_std
 {
 	namespace tr1
 	{
+        /** \addtogroup CODE
+        *  @{
+        */
+        /** \addtogroup sn_std
+        *  @{
+        */
+        /** \addtogroup tr1
+        *  @{
+        */
+
 		template <typename key_t, typename val_t>
 		class sn_map_deq
 		{
@@ -206,6 +216,9 @@ namespace sn_std
 		protected:
 			deq_pair_t* m_p_deq;
 		};
+        /** @} */
+        /** @} */
+        /** @} */
 	}
 }
 

@@ -3,13 +3,13 @@ SET ROOT_DIR=%CURDIR%\..\..\
 cd %ROOT_DIR%
 SET ROOT_DIR=%cd%
 
-cd deps_win\OpenCppCoverage
+cd deps\win\OpenCppCoverage
 set PATH=%PATH%;%cd%
-cd ..\..\
+cd %ROOT_DIR%
 
-rmdir doc\opencpp /s /q
+rmdir build\docs\opencpp /s /q
 
-OpenCppCoverage --sources codes --excluded_sources *.cpp --export_type html:doc\opencpp -- build\Debug\sn_stl.exe  
+OpenCppCoverage --sources codes --excluded_sources *.cpp --export_type html:build\docs\opencpp -- build\Debug\sn_stl.exe  
 
 del LastCoverageResults.log
 

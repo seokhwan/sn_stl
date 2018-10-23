@@ -11,6 +11,24 @@
 
 #include <vector>
 
+
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU01002_SN_VECTOR_AT
+*  @{
+*/
+
+/**
+@see TU01002_SN_VECTOR_AT.cpp
+*/
 SATES_TEST_INIT(TU01002_SN_VECTOR_AT)
 {
 
@@ -39,3 +57,8 @@ SATES_TEST_TERMINATE(TU01002_SN_VECTOR_AT)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

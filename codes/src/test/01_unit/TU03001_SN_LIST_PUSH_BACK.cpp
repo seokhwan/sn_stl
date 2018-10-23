@@ -10,6 +10,23 @@
 
 #include <list>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU03001_SN_LIST_PUSH_BACK
+*  @{
+*/
+
+/**
+@see TU03001_SN_LIST_PUSH_BACK.cpp
+*/
 SATES_TEST_INIT(TU03001_SN_LIST_PUSH_BACK)
 {
 
@@ -81,3 +98,8 @@ SATES_TEST_TERMINATE(TU03001_SN_LIST_PUSH_BACK)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

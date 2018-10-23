@@ -1,0 +1,38 @@
+﻿@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  19 Oct 2018 | Draft Added  | Seokhwan Kim  |  User  |
+
+
+@title
+Best performance within 1000 items
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+The aim of the SN_STL is for embedded system. In embedded software,
+the number of items for a container generally under 1000.
+Therefore, the performance of an algorithm is designed to be maximized within 1000 item size.
+
+
+@benefit
+
+@penalty
+
+@cost
+
+@risk
+
+@parent_spec
+
+@child_spec
+
+@test
+
+@fmea
+
+@constraint
+

@@ -10,6 +10,23 @@
 
 #include <list>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU03002_SN_LIST_PUSH_FRONT
+*  @{
+*/
+
+/**
+@see TU03002_SN_LIST_PUSH_FRONT.cpp
+*/
 SATES_TEST_INIT(TU03002_SN_LIST_PUSH_FRONT)
 {
 
@@ -90,3 +107,8 @@ SATES_TEST_TERMINATE(TU03002_SN_LIST_PUSH_FRONT)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

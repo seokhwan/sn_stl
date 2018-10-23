@@ -14,6 +14,23 @@
 #include <iostream>
 #include <vector>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU05002_SN_MAP_DEQ_ITERATOR
+*  @{
+*/
+
+/**
+@see TU05002_SN_MAP_DEQ_ITERATOR.cpp
+*/
 SATES_TEST_INIT(TU05002_SN_MAP_DEQ_ITERATOR)
 {
 }
@@ -105,3 +122,8 @@ SATES_TEST_TERMINATE(TU05002_SN_MAP_DEQ_ITERATOR)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

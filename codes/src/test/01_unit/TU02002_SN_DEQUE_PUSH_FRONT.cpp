@@ -10,6 +10,23 @@
 #include <sn_stl/sn_deque.h>
 #include <deque>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU02002_SN_DEQUE_PUSH_FRONT
+*  @{
+*/
+
+/**
+@see TU02002_SN_DEQUE_PUSH_FRONT.cpp
+*/
 SATES_TEST_INIT(TU02002_SN_DEQUE_PUSH_FRONT)
 {
 
@@ -45,3 +62,8 @@ SATES_TEST_TERMINATE(TU02002_SN_DEQUE_PUSH_FRONT)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

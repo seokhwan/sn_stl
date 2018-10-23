@@ -1,0 +1,24 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  19 Oct 2018 | Draft Added  | Seokhwan Kim  |  User  |
+
+@title
+Performance test for classes that provide std::map interface
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+It tests the performance for emplace() and find() methods of 
+std::map, sn_std::tr1::sn_map_vec, sn_std::tr1::sn_bbst, sn_std::tr1::sn_map_deq
+
+@ret_code
+- sn_std::tr1::sn_map_vec
+- sn_std::tr1::sn_map_deq
+- sn_std::tr1::sn_bbst
+
+@ret_spec
+

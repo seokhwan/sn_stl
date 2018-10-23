@@ -3,9 +3,9 @@ SET ROOT_DIR=%CURDIR%\..\..\
 cd %ROOT_DIR%
 SET ROOT_DIR=%cd%
 
-cd deps_win\cmake-3.12.3-win64-x64\bin
+cd deps\win\cmake-3.12.3-win64-x64\bin
 set PATH=%PATH%;%cd%
-cd ..\..\..\
+cd ..\..\..\..\
 
 rmdir build /s /q
 mkdir build

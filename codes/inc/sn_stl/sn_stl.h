@@ -47,6 +47,13 @@
 #ifndef __SN_STL_SN_STL_H__
 #define __SN_STL_SN_STL_H__
 
+
+/**
+ * \defgroup sn_std sn_std
+ * \defgroup tr1 tr1
+ */
+
+
 #include <stdint.h>
 
 #endif // __SN_STL_SN_STL_H__

@@ -12,6 +12,23 @@
 #include <iostream>
 #include <map>
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU05001_SN_MAP_DEQ_EMPLACE
+*  @{
+*/
+
+/**
+@see TU05001_SN_MAP_DEQ_EMPLACE.cpp
+*/
 SATES_TEST_INIT(TU05001_SN_MAP_DEQ_EMPLACE)
 {
 }
@@ -72,3 +89,8 @@ SATES_TEST_TERMINATE(TU05001_SN_MAP_DEQ_EMPLACE)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

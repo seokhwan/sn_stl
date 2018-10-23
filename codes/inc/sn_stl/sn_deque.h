@@ -13,6 +13,13 @@
 
 namespace sn_std
 {
+    /** \addtogroup CODE
+    *  @{
+    */
+    /** \addtogroup sn_std
+    *  @{
+    */
+
 	enum DEQUE_EXCEPTION
 	{
 		DEQUE_EXCEPTION_BEGIN = 2000,
@@ -408,6 +415,9 @@ namespace sn_std
 		T* m_p_arr;
 		bool m_is_allocated;
 	};
+
+    /** @} */
+    /** @} */
 }
 
 #endif // __SN_STL_SN_DEQUE_H__

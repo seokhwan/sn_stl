@@ -14,6 +14,13 @@
 
 namespace sn_std
 {
+    /** \addtogroup CODE
+    *  @{
+    */
+    /** \addtogroup sn_std
+    *  @{
+    */
+
 	template <typename T1, typename T2>
 	class sn_pair
 	{
@@ -27,6 +34,9 @@ namespace sn_std
 		T1 first;
 		T2 second;
 	};
+
+    /** @} */
+    /** @} */
 }
 
 #endif // __SN_STL_SN_PAIR_H__

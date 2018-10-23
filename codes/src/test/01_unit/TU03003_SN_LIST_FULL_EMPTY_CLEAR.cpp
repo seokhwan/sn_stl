@@ -21,6 +21,23 @@ public:
 	}
 };
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
+
+/** \addtogroup TU03003_SN_LIST_FULL_EMPTY_CLEAR
+*  @{
+*/
+
+/**
+@see TU03003_SN_LIST_FULL_EMPTY_CLEAR.cpp
+*/
 SATES_TEST_INIT(TU03003_SN_LIST_FULL_EMPTY_CLEAR)
 {
 
@@ -48,3 +65,8 @@ SATES_TEST_TERMINATE(TU03003_SN_LIST_FULL_EMPTY_CLEAR)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

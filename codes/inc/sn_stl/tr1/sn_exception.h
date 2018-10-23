@@ -13,18 +13,19 @@
 #include <cstring>
 #include <algorithm>
 
-/*
-VECTOR_EXCEPTION_BEGIN = 1000,
-DEQUE_EXCEPTION_BEGIN = 2000,
-LIST_EXCEPTION_BEGIN = 3000,
-BBST_EXCEPTION_BEGIN = 4000,
-MAP_EXCEPTION_BEGIN = 5000
-*/
-
 namespace sn_std
 {
 	namespace tr1
 	{
+        /** \addtogroup CODE
+        *  @{
+        */
+        /** \addtogroup sn_std
+        *  @{
+        */
+        /** \addtogroup tr1
+        *  @{
+        */
 		class sn_exception
 		{
 		public:
@@ -32,6 +33,10 @@ namespace sn_std
 			static void handle(int32_t exception_code, const char* p_format, ...);
 			static void register_handler(int32_t exception_code, handler_t p_func);
 		};
+
+        /** @} */
+        /** @} */
+        /** @} */
 	}
 }
 

@@ -14,6 +14,12 @@
 
 namespace sn_std
 {
+    /** \addtogroup CODE
+    *  @{
+    */
+    /** \addtogroup sn_std
+    *  @{
+    */
 	template <typename T>
 	void sn_swap(T& val1, T& val2)
 	{
@@ -21,6 +27,8 @@ namespace sn_std
 		val1 = val2;
 		val2 = tmp;
 	}
+    /** @} */
+    /** @} */
 }
 
 #endif // __SN_STL_SN_MOVE_H__

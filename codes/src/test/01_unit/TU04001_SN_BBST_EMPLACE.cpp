@@ -13,7 +13,23 @@
 #include <iostream>
 
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T01_UNIT_CODE
+*  @{
+*/
 
+/** \addtogroup TU04001_SN_BBST_EMPLACE
+*  @{
+*/
+
+/**
+@see TU04001_SN_BBST_EMPLACE.cpp
+*/
 SATES_TEST_INIT(TU04001_SN_BBST_EMPLACE)
 {
 }
@@ -74,3 +90,8 @@ SATES_TEST_TERMINATE(TU04001_SN_BBST_EMPLACE)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

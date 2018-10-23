@@ -21,7 +21,7 @@
 #include <iostream>
 #include <ctime>
 
-static const int ITEM_SIZE = 10000;
+static const int ITEM_SIZE = 1000;
 
 static const uint32_t MAP_SIZE = ITEM_SIZE + 10;
 static const int TEST_COUNT = 10;
@@ -71,6 +71,23 @@ static void find_test(T& testitem, const std::vector<std::vector<int> >& vec, co
 	std::cout << p_mapname << "::find : " << accum * (double)1000 / (double)TEST_COUNT << "ms" << std::endl;
 }
 
+/** \addtogroup CODE
+*  @{
+*/
+/** \addtogroup TESTCODE
+*  @{
+*/
+/** \addtogroup T03_PERF_CODE
+*  @{
+*/
+
+/** \addtogroup TF0001_STDMAP_PERF
+*  @{
+*/
+
+/**
+@see TF0001_STDMAP_PERF.cpp
+*/
 SATES_TEST_INIT(TF0001_STDMAP_PERF)
 {
 }
@@ -114,3 +131,8 @@ SATES_TEST_TERMINATE(TF0001_STDMAP_PERF)
 {
 
 }
+
+/** @} */
+/** @} */
+/** @} */
+/** @} */

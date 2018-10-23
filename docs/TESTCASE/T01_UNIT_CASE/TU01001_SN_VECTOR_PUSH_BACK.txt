@@ -1,0 +1,22 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  19 Oct 2018 | Draft Added  | Seokhwan Kim  |  User  |
+
+@title
+sn_vector::push_back() test
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+It tests if the push_back() of sn_vector works in the same way of 
+the push_back() of std::vector
+
+@ret_code
+- sn_std::sn_vector
+
+@ret_spec
+
