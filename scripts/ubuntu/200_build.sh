@@ -2,7 +2,7 @@
 set -x
 
 cd ../../build/release
-make
+make -j8
 
 cd ../debug
-make
+make -j8

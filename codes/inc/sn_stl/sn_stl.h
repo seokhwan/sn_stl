@@ -56,4 +56,11 @@
 
 #include <stdint.h>
 
+#define SN_BEST_PERFORMANCE
+//#define SN_BEST_DEBUG_CONVENIENCE
+
+#ifdef SN_BEST_PERFORMANCE
+#define SN_EXCPETION_CHECK_DISABLE
+#endif
+
 #endif // __SN_STL_SN_STL_H__

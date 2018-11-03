@@ -9,7 +9,6 @@
 #include <iostream>
 #include <sates/sates_test_cpp_deploy.h>
 
-
 int main()
 {
 	SATES_TEST_RUN_MAIN_FUNC_RUN(TU01001_SN_VECTOR_PUSH_BACK);

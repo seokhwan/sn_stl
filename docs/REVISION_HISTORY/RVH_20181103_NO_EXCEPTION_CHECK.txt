@@ -1,0 +1,16 @@
+
+@date
+
+@desc
+- sn_std::tr1::sn_exception::handle function modified to ease the removal 
+  now you can switch on / off the use of exception check by modifying 
+  SN_EXCPETION_CHECK_DISABLE macro at sn_stl.h
+  
+- The performace test result with SN_EXCPETION_CHECK_DISABLE option is added
+
+@ret_code
+
+@ret_spec
+
+@author
+Seokhwan Kim

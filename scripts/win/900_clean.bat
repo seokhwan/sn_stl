@@ -5,5 +5,6 @@ SET ROOT_DIR=%cd%
 
 rmdir build /s /q 
 rmdir doc /s /q
+rmdir codes/.vs /s /q
 
 cd %CURDIR%

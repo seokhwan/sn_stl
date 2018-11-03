@@ -224,19 +224,13 @@ namespace sn_std
 		////////////////////////////////////////
 		T& front()
 		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_FRONT_NO_ELEM, "sn_deque::front()");
-			}
+            SN_EXCEPTION_HANDLE((m_size < 1U), DEQUE_EXCEPTION_FRONT_NO_ELEM, "sn_deque::front()");
 			return (m_p_arr[m_head]);
 		}
 
 		T& back()
 		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_BACK_NO_ELEM, "sn_deque::back()");
-			}
+			SN_EXCEPTION_HANDLE((m_size < 1U), DEQUE_EXCEPTION_BACK_NO_ELEM, "sn_deque::back()");
 
 			if (0U == m_tail)
 			{
@@ -250,11 +244,8 @@ namespace sn_std
 
 		T& operator[] (uint32_t idx)
 		{
-			if (m_size < 1U)
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");
-			}
-
+            SN_EXCEPTION_HANDLE((m_size < 1U), DEQUE_EXCEPTION_AT_NO_ELEM, "sn_deque::at()");
+            
 			if (m_index_max >= m_head + idx)
 			{
 				return (m_p_arr[m_head + idx]);
@@ -295,94 +286,74 @@ namespace sn_std
 		////////////////////////////////////////
 		void push_front(const T& data)
 		{
+            SN_EXCEPTION_HANDLE(full(), DEQUE_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_deque::push_front()");
+			
+			m_head--;
+			if (-1 == m_head)
+			{
+				m_head = m_index_max;
+			}
+
+			m_p_arr[m_head] = data;
+
+			_increment_size();
 			if (full())
 			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_PUSH_FRONT_OVERFLOW, "sn_deque::push_front()");
-			}
-			else
-			{
-				m_head--;
-				if (-1 == m_head)
-				{
-					m_head = m_index_max;
-				}
-
-				m_p_arr[m_head] = data;
-
-				_increment_size();
-				if (full())
-				{
-					m_tail = m_head;
-				}
+				m_tail = m_head;
 			}
 		}
 
 		void push_back(const T& data)
 		{
+            SN_EXCEPTION_HANDLE(full(), DEQUE_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_deque::push_back()");
+			
+			m_p_arr[m_tail] = data;
+
+			_increment_size();
+			++m_tail;
+			if (m_tail > m_index_max)
+			{
+				m_tail = 0U;
+			}
 			if (full())
 			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_deque::push_back()");
-			}
-			else
-			{
-				m_p_arr[m_tail] = data;
-
-				_increment_size();
-				++m_tail;
-				if (m_tail > m_index_max)
-				{
-					m_tail = 0U;
-				}
-				if (full())
-				{
-					m_head = m_tail;
-				}
+				m_head = m_tail;
 			}
 		}
 
 		void pop_front()
 		{
-			if (m_size > 0U)
-			{
-				if (m_index_max == m_head)
-				{
-					m_head = 0U;
-				}
-				else
-				{
-					m_head++;
-				}
-				--m_size;
-			}
-			else
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_POP_FRONT_NO_ELEM, "sn_deque::pop_front()");
-			}
+            SN_EXCEPTION_HANDLE(!(m_size > 0U), DEQUE_EXCEPTION_POP_FRONT_NO_ELEM, "sn_deque::pop_front()");
+
+            if (m_index_max == m_head)
+            {
+                m_head = 0U;
+            }
+            else
+            {
+                m_head++;
+            }
+            --m_size;
 		}
 
 		void pop_back()
 		{
-			if (m_size > 0U)
-			{
-				if (m_tail == 0U)
-				{
-					m_tail = m_index_max;
-				}
-				else
-				{
-					m_tail--;
-				}
-				m_size--;
-			}
-			else
-			{
-				tr1::sn_exception::handle(DEQUE_EXCEPTION_POP_BACK_NO_ELEM, "sn_deque::pop_back()");
-			}
+            SN_EXCEPTION_HANDLE(!(m_size > 0U), DEQUE_EXCEPTION_POP_BACK_NO_ELEM, "sn_deque::pop_back()");
+
+            if (m_tail == 0U)
+            {
+                m_tail = m_index_max;
+            }
+            else
+            {
+                m_tail--;
+            }
+            m_size--;
 		}
 
 		void clear()
 		{
-			m_size = 0;
+			_init();
 		}
 
 

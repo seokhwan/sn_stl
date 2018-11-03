@@ -156,6 +156,7 @@ namespace sn_std
 							(*m_p_deq)[i] = (*m_p_deq)[i + 1U];
 							(*m_p_deq)[i + 1U] = tmp;
 						}
+						return sn_pair<iterator, bool>(iterator(idx, m_p_deq), true);
 					}
 					else
 					{

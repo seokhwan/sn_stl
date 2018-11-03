@@ -7,6 +7,7 @@
 |  14 Oct 2018 | deque based map added  | Seokhwan Kim |  User  |
 |  16 Oct 2018 | vector based map added  | Seokhwan Kim |  User  |
 |  17 Oct 2018 | performance test result added   | Seokhwan Kim |  User  |
+|  3 Nov 2018 | performance test without exception check | Seokhwan Kim |  User  |
 
 # SN_STL 
 sn_stl is a small implementation of stl (c++ standard template library) for <strong>complex realtime software</strong>.
@@ -117,6 +118,7 @@ Then, go to ./script/ubuntu
   it cleans up build and doc directories
 
 # Performance Test
+
 ## TEST #001 std::map, sn_bbst, sn_map_deq, sn_map_vec  (17 Oct 2018)
 I use std::map for following scenarios
 * An efficient way to search() is necessary
@@ -192,6 +194,84 @@ Test Environment :
 | 10000 | 0.51865 | 0.8246 | 1.1468 | 0.6326 | 
 | 100000 | 10.4149 | 11.6132 | 19.7357 | 8.98817 |
 
+## TEST #002 Without Exception Check
+Throughout  [the first performance test](#test-001-stdmap-sn_bbst-sn_map_deq-sn_map_vec--17-oct-2018) I could find the good performance balance of std::map. It showed the best performance for emplace() with still relatively reasonable performance for find(). 
+
+Actually my implementaion with vector and deque is based on simple sorted array. Because it uses insertion sort, the poor performance for emplace with relatively large data is obvious. However, why the performance of the find() not much better than the std::map ? 
+
+The answer was because of exception check (i.e., checking memory boundary). The implementation of operator[] contained the following code. 
+~~~
+if (idx >= m_size)
+{
+  exception_handle();
+}
+~~~
+
+The effect of the boundary check was huge more than I expect. The following result is without such boundary check.
+
+
+## @Windows 10
+Test Environment : 
+* Microsoft (R) C/C++ Optimizing Compiler Version 19.15.26732.1 for x86
+* Microsoft Windows [Version 10.0.17134.376]
+* Intel(R) Core(TM) i7-7820 HQ
+* 32GB RAM
+  
+### emplace (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0129        | 0.0059        | 0.0150        | 0.0081        |
+| 1000   | 0.1320        | 0.0992        | 0.2123        | 0.3547        |
+| 10000  | 1.8617        | 3.7310        | 3.0529        | 22.7365       |
+| 100000 | 22.7014       | 53.3589       | 26.5422       | 292.9138      |
+
+### find (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0058        | 0.0041        | 0.0054        | 0.0048        |
+| 1000   | 0.0761        | 0.0504        | 0.0724        | 0.0548        |
+| 10000  | 1.1287        | 0.6339        | 1.2024        | 0.6825        |
+| 100000 | 16.1198       | 7.4553        | 16.6245       | 8.0339        |
+
+## @Ubuntu 18.04 (GCC)
+* g++ Ubuntu 7.3.0-27ubuntu1~18.04
+* Linux 4.15.0-38-generic #41-Ubuntu 
+* Intel(R) Core(TM) i7-7820 HQ
+* 32GB RAM
+  
+### emplace (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0069        | 0.0045        | 0.0125        | 0.0070        |
+| 1000   | 0.0951        | 0.0704        | 0.1831        | 0.2387        |
+| 10000  | 1.3831        | 2.7005        | 2.9260        | 16.8448       |
+| 100000 | 21.4425       | 359.7794      | 47.3907       | 1458.1417     |
+
+### find (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0050        | 0.0038        | 0.0050        | 0.0052        |
+| 1000   | 0.0757        | 0.0484        | 0.0720        | 0.0699        |
+| 10000  | 1.2226        | 0.5866        | 1.2422        | 0.9015        |
+| 100000 | 20.3735       | 9.8720        | 20.5865       | 12.2228       |
+
+## @Ubuntu 18.04 (Clang)
+* clang version 6.0.0-1ubuntu2 
+### emplace (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0068        | 0.0051        | 0.0135        | 0.0087        |
+| 1000   | 0.0806        | 0.0807        | 0.1923        | 0.3966        |
+| 10000  | 1.3265        | 3.0671        | 3.2035        | 32.4414       |
+| 100000 | 21.2073       | 363.8008      | 47.6511       | 2905.6070     |
+
+### find (time unit : ms)
+|ITEM SIZE  | std::map  | sn_map_vec   | sn_bbst  |  sn_map_deq | 
+|---|---|---|---|---|
+| 100    | 0.0041        | 0.0045        | 0.0053        | 0.0057        |
+| 1000   | 0.0548        | 0.0606        | 0.0757        | 0.0760        |
+| 10000  | 1.0669        | 0.7623        | 1.2585        | 0.8959        |
+| 100000 | 21.2329       | 12.6067       | 20.4856       | 12.6275       |
 
 # Acknowledge
 As stated in sn_stl/sn_stl.h file, many of the source code is from the book [Data Structures & Algorithm Analysis in C++](https://www.amazon.com/Data-Structures-Algorithm-Analysis-C/dp/013284737X) by Prof. Mark Allen Weiss (Florida International University)

@@ -13,6 +13,7 @@
 #include <cstring>
 #include <algorithm>
 
+
 namespace sn_std
 {
 	namespace tr1
@@ -30,7 +31,7 @@ namespace sn_std
 		{
 		public:
 			typedef void(*handler_t)(void);
-			static void handle(int32_t exception_code, const char* p_format, ...);
+			static void handle(bool condition, int32_t exception_code, const char* p_format, ...);
 			static void register_handler(int32_t exception_code, handler_t p_func);
 		};
 
@@ -39,5 +40,13 @@ namespace sn_std
         /** @} */
 	}
 }
+
+
+#ifdef SN_EXCPETION_CHECK_DISABLE
+    #define SN_EXCEPTION_HANDLE(a, b, c)
+#else
+    #define SN_EXCEPTION_HANDLE(a, b, c) \
+        sn_std::tr1::sn_exception::handle(a, b, c);
+#endif
 
 #endif // __SN_STL_TR1_SN_EXCEPTION_H__

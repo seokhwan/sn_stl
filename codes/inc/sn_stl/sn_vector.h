@@ -135,15 +135,8 @@ namespace sn_std
 		
 		T& operator[] (uint32_t idx)
 		{
-			if (idx < m_size)
-			{
-				return m_p_arr[idx];
-			}
-			else
-			{
-				tr1::sn_exception::handle(VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE, "sn_vector::at()");
-			}
-			return m_p_arr[0U];
+            SN_EXCEPTION_HANDLE((idx >= m_size), VECTOR_EXCEPTION_AT_INDEX_OUT_OF_RANGE, "sn_vector::at()");
+            return m_p_arr[idx];
 		}
 
 		T& at(uint32_t idx)
@@ -170,33 +163,21 @@ namespace sn_std
 		{
 			return const_cast<sn_vector<T*>*>(this)->at(idx);;
 		}
-
+         
 		////////////////////////////////////////
 		// modifiers
 		////////////////////////////////////////
 		void push_back(const T& val)
 		{
-			if (m_size < m_capacity)
-			{
-				m_p_arr[m_size] = val;
-				++m_size;
-			}
-			else
-			{
-				tr1::sn_exception::handle(VECTOR_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_vec::push_back()");
-			}
+            SN_EXCEPTION_HANDLE((m_size >= m_capacity), VECTOR_EXCEPTION_PUSH_BACK_OVERFLOW, "sn_vec::push_back()");
+            m_p_arr[m_size] = val;
+            ++m_size;
 		}
 
 		void pop_back()
 		{
-			if (m_size > 0U)
-			{
-				--m_size;
-			}
-			else
-			{
-				tr1::sn_exception::handle(VECTOR_EXCEPTION_POP_BACK_NO_ELEM, "sn_vec::pop_back()");
-			}
+            SN_EXCEPTION_HANDLE(!(m_size > 0U), VECTOR_EXCEPTION_POP_BACK_NO_ELEM, "sn_vec::pop_back()");
+            --m_size;
 		}
 
 		void clear()
