@@ -20,5 +20,7 @@ More specifically,
 - The arguments type, the number of arguments, and the true meaning of each argument shall be same to STL.
 - The return type and the true meaning of return value shall be same to STL.
 
+@parent_spec
+BR_0001_EASY_TO_UNDERSTAND
 @child_spec
 

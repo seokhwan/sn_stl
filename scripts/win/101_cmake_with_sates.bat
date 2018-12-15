@@ -7,7 +7,7 @@ cd deps\win\cmake-3.12.3-win64-x64\bin
 set PATH=%PATH%;%cd%
 cd ..\..\..\..\
 
-REM rmdir build /s /q
+rmdir build /s /q
 mkdir build
 
 cd build

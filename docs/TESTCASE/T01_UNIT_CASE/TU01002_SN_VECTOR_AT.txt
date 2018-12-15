@@ -1,0 +1,21 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  5 Nov 2018 | Added  | Seokhwan Kim  |  User  |
+
+@title
+sn_vector::at() test
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+It tests what happens if the at() tries to access the location that no item is assigned.
+
+@ret_code
+- sn_std::sn_vector
+
+@ret_spec
+

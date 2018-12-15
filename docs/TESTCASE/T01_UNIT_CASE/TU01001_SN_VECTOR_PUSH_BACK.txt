@@ -15,6 +15,9 @@ Seokhwan Kim
 It tests if the push_back() of sn_vector works in the same way of 
 the push_back() of std::vector
 
+It add 33 items in the vectors (i.e., sn_vector and std::vector) respectively.
+And, it checks if all the items in the containers are in same order.
+
 @ret_code
 - sn_std::sn_vector
 

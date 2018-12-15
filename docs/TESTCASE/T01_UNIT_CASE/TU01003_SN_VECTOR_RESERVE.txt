@@ -1,0 +1,25 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  5 Nov 2018 | Added  | Seokhwan Kim  |  User  |
+
+@title
+sn_vector::reserve() test
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+The reserve() function reserves (i.e., allocates) memory for having the items with given size.
+It specifically tests
+- What happens if the given size arugment is smaller than current size?
+- After a successful reserve() call, the capacity() returnes appropriate size ? 
+- The items that are already in the container are also reserved ?
+
+@ret_code
+- sn_std::sn_vector
+
+@ret_spec
+

@@ -1,0 +1,23 @@
+@revision
+|  Date  | Log  | Written by   | Confirmed By  | 
+|------------|------------|------------|------------|
+|  5 Nov 2018 | Added  | Seokhwan Kim  |  User  |
+
+@title
+sn_vector::reserve() test
+
+@author
+Seokhwan Kim
+
+@date
+
+@desc
+std::sort() is a useful function.
+This test answers the following question : 
+- The std::sort() can be usable to sn_vector also ? 
+
+@ret_code
+- sn_std::sn_vector
+
+@ret_spec
+
