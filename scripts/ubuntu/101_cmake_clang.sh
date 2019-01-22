@@ -1,6 +1,6 @@
-et -x
+set -x
 cd ../../
-rm -rf builda
+rm -rf build
 mkdir -p build/release
 mkdir -p build/debug
 cd build/release
