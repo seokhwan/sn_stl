@@ -21,7 +21,7 @@
 #include <iostream>
 #include <ctime>
 
-static const int ITEM_SIZE = 1000;
+static const int ITEM_SIZE = 10000;
 
 static const uint32_t MAP_SIZE = ITEM_SIZE + 10;
 static const int TEST_COUNT = 100;
