@@ -15,30 +15,30 @@ sn_stl is a small implementation of stl (c++ standard template library) for <str
 You can find the full documentation of the SN_STL at https://seokhwan.github.io/
 
 ## What is the complex realtime software ? 
-The complex realtime software runs on generally following environment : <br>
+The complex realtime software generally runs on the following environment : <br>
 1. There is a handy RTOS: Xenomai / RT preempt patched Linux, VxWorks, or INtime on Windows
-2. It runs at relatively high performance embedded chipsets: <br>
+2. It runs on relatively high performance embedded chipsets: <br>
 666Mhz ARM Cortex-A9 chip with 512 MB RAM is an example 
 
 The examples of such complex realtime software are : <br>
 * Robot / Motion control software
-* Any control software that requires a lot of math
+* Any control software that requires lots of math
 
 The characteristics of those complex realtime software are : 
-* <strong>The OS, HW resource is solely for me : </strong>the desktop / mobile software shall consider the other software. For example, if your loop consumes all CPU, then the other software are stuck. No user and developer do not want this situation. So you should be carefult that your software doesn't consume too much CPU and memory. Many people think an embedded software more optimized and suffer the lack of resource. That is generally true but is not true for some aspects. In this environment, even though your application runs on an operating system, you do not need to consider the other processes. You can (also must) use all resource as much as possible.
+* <strong>The OS, HW resource is solely for me : </strong>the desktop / mobile software should consider the other software. For example, if your loop consumes all CPU, then the other software are stuck. No user and developer do want this. So you should be very carefult that your software doesn't consume too much CPU and memory. Many people think the embedded software should be more optimized and suffer the lack of resource. That is generally true but also it is not true for some aspects. In this environment, even though your application runs on an operating system, you do not need to consider the other processes. You can (also must) use all resource as much as possible.
 * <strong>Still RT software techniques necessary : </strong> Even though you have lots of memory and whole CPU available, still it is RT software. Therefore, you need to avoid unencouraged habits such as runtime memory allocation / deallocation or the complex multi-threaded routines with lots of lock() / unlock() statements.
 
 ## So why SN_STL? 
 ### You need to know it eactly
-<strong>The second characteristics (RT techniques necessary) </strong> requires you to use an algorithm or data structure that <strong>you exactly understand</strong>.
+<strong>The second characteristics (RT techniques necessary) </strong> requires you to use an algorithm or data structure that <strong>you fully understand</strong>.
 
-I know STL implementations in g++ or Microsoft CL compilers are superior. The code of STL in those popular compilers are written by super developers and intensively tested for numerous exceptional cases. Generally, there is very little possibility that we can write such high quality code before the end of our life. I do know. But, the code is highly complext so that generally we do "not know it exactly".
+I know STL implementations in g++ or Microsoft CL compilers are superior. The code of STL in those popular compilers are written by super developers and intensively tested for numerous exceptional cases. Generally, there is very little possibility that we can write such high quality code before the end of our life. I do know. But, the code is highly complex so that generally we do "not know it exactly".
 
-If resize() happens in std::vector, how much time and memory is really required in terms of O() notation? In your code how many times the resize() happens? As a developer who deals with reliable software we need to answer it. Otherwise, it is better to use some clumsy and bit slow but highly understandable implementations.
+If resize() happens in std::vector, how much time and memory is really required in terms of O() notation? In your code how many times the resize() happens? As a developer who deals with reliable software we must be able to answer it. Otherwise, it is better to have some clumsy and bit slow but highly understandable implementations.
 
-The worse is if your software runs on different OS (it generally happens when you develop the complext realtime software), each implementation of STL is also little bit different. Can you really exactly know the difference? How about if the compiler's version is updated? Do you really know that how much the std::vector is different from the previous version?
+The worse is if your software runs on different OS (it generally happens when you develop the complex realtime software), each implementation of STL is also little bit different. Can you really exactly know the difference? How about if the compiler's version is updated? Do you really know that how much the std::vector is different from the previous version?
 
-<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development exoerience. I don't want to face such situation again. I do want to know more exactly.
+<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development exoerience. I don't want to face such situation again. I do want to know it more exactly.
 
 ### You can know it eactly
 Most of codes are under few hundreds lines, and no function is more than 100 lines. I know lines of code is not matter. However, the less line the less you need to read and understand. And more possibility of knowing it exactly.
@@ -46,7 +46,7 @@ Most of codes are under few hundreds lines, and no function is more than 100 lin
 ### Design
 The key designs that are different from standard STL are : <br>
 * <strong>No automatic allocation</strong><br>
-It does not call resize() automatically. If overflow happens, it generates exception (not general exception). Even the complext realtime system, it is generally much more static than desktop software. The "static" in here means that you can know how much memory slots are required at maximum at compile time. So, generally it is better to make an exception to make you know you need more memory than to smoothly call resize() in the inside (then you will never realize it).
+It does not call resize() automatically. If overflow happens, it generates exception (not general exception). Even the complex realtime system, it is generally much more static than desktop software. The "static" in here means that you can know how much memory slots are required at maximum at compile time. So, generally it is better to make an exception to make you know you need more memory than to smoothly call resize() in the inside (then you will never recognize it).
 
 * <strong>No undefined behavior</strong><br>
 If you access a location of out of bound in std::vector, it just accesses it and segmentation fault occurs. This is a undefined behavior. See [vector's operator[] page](http://www.cplusplus.com/reference/vector/vector/operator[]/)). Generally this approach is not welcomed in the embedded software. If an exception occurs, sometimes the RT environment itself is crashed so that the system shows a undefined behavior (It happens in Xenomai env.). Rather than, calling a callback function (pre-defined) or gently reporting it is more welcomed way. Indeeed this is the critical requirement for the safety-critical software.
