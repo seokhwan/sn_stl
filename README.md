@@ -38,7 +38,7 @@ If resize() happens in std::vector, how much time and memory is really required 
 
 The worse is if your software runs on different OS (it generally happens when you develop the complex realtime software), each implementation of STL is also little bit different. Can you really exactly know the difference? How about if the compiler's version is updated? Do you really know that how much the std::vector is different from the previous version?
 
-<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development exoerience. I don't want to face such situation again. I do want to know it more exactly.
+<strong>If you don't know it exactly, something undebuggable happens</strong>. That's what I have learned through more than 15 years of development experience. I don't want to face such situation again. I do want to know it more exactly.
 
 ### You can know it eactly
 Most of codes are under few hundreds lines, and no function is more than 100 lines. I know lines of code is not matter. However, the less line the less you need to read and understand. And more possibility of knowing it exactly.
